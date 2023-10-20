@@ -1,0 +1,30 @@
+{
+  "name": "csc_school_portal",
+  "version": "1.0.0",
+  "description": "My Team and I building a School Portal for my Department to help them populate student results and calculate students CGPA by the session",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Okafor-Ifeanyi/csc_school_portal.git"
+  },
+  "author": "CSC",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Okafor-Ifeanyi/csc_school_portal/issues"
+  },
+  "homepage": "https://github.com/Okafor-Ifeanyi/csc_school_portal#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.6.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.0.1"
+  }
+}

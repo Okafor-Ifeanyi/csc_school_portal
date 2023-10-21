@@ -4,7 +4,7 @@ import { MESSAGES } from './constants.config.js'
 
 
 export async function connect (db) {
-    // Database Connection 
+    // Database Connection
     await mongoose.connect(db, {
         useNewUrlParser: true, 
         useUnifiedTopology: true,

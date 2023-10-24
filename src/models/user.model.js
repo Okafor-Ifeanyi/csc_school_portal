@@ -15,10 +15,10 @@ const adminSchema = new Schema({
     image: {
       type: String
    },
-//    role: {
-//     type: Enum,
+   role: {
+    type: Enum,
 
-//    }
+   }
   },
     { timestamps: {
       createdAt: true,

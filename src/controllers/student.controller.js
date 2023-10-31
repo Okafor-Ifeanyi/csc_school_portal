@@ -25,9 +25,9 @@ export const loginStudent = async (req, res, next) => {
 //Get a Single by Name or ID
 export const findStudent = async (req, res, next) => {
     try {
-    user = await services.getStudent({_id: req.params.id})
+    const user = await services.getStudent({_id: req.params.id})
   if(!user){ return res.status(404).json({success: false, message: 'User not found'})}
-  return res.status(200).json({success: true,message: user})    
+  return res.status(200).json({message: 'User Fetched Successfully', data: user, success: true})    
     } catch (error) {
       next(error)
     }

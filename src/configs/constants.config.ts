@@ -6,16 +6,16 @@ export const DATABASE_URI_TEST = process.env.DATABASE_URI_TEST;
 export const JWT_SECRET = process.env.JWT_SECRET;
 export const COOKIE_SECRET = process.env.COOKIE_SECRET;
 export const PORT: number = parseInt(process.env.PORT || "5000", 10);
-export const SECRET = process.env.SECRET;
+export const SECRET = process.env.SECRET!;
 export const MAXAGE = 60 * 60;
 export const BASEPATH = "/api/v1";
 
 export const ENUM = {
   SEX: ["M", "F", "LGBTQ"],
+  ROLE: ["hod", "advisor", "lecturer", "lab_attendant"],
   TITLE: ["Mr.", "Mrs.", "Ms.", "Miss"],
   STATUS: ["Pending", "Rejected", "Completed", "Active"],
   LOAN: ["Personal", "Mortgage", "Rent"],
-  ROLE: ["Welfare", "DFA", "Chief Of Welfare", "Super Admin"],
 };
 
 export const DATABASES = {

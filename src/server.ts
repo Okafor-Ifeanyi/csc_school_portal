@@ -1,6 +1,6 @@
-import { createServer } from "./configs/server.config.js";
-import { connect } from "./configs/db.config.js";
-import { PORT, DATABASE_URI } from "./configs/constants.config.js";
+import { createServer } from "./configs/server.config";
+import { connect } from "./configs/db.config";
+import { PORT, DATABASE_URI } from "./configs/constants.config";
 
 const app = createServer();
 

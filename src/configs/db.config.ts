@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import {} from "dotenv/config";
-import { MESSAGES } from "./constants.config.js";
+import { MESSAGES } from "./constants.config";
 
 interface MyConnectOptions {
   useNewUrlParser: boolean;

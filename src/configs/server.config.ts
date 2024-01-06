@@ -1,8 +1,12 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import router from "../routers/index.router.js";
-import errorHandler from "../middlewares/error.middleware.js";
+import router from "../routers/index.router";
+import errorHandler from "../middlewares/error.middleware";
+import passport from "./passport.config";
+import flash from "express-flash";
+import sessionMiddleware from "../middlewares/session.middleware";
+// const cookieParser = require('cookie-parser');
 
 export function createServer() {
   const app = express();
@@ -30,7 +34,7 @@ export function createServer() {
     }),
   );
 
-  app.use((_, res, next) => {
+  app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
       "Access-Control-Allow-Methods",
@@ -42,10 +46,19 @@ export function createServer() {
     );
     next();
   });
+  app.use(flash());
+  // Use express session middleware
+  app.use(sessionMiddleware);
+  // Initialize Passport
+  app.use(passport.initialize());
+  app.use(passport.session());
 
+  app.get("/api/demo", (req, res) => {
+    console.log(req.isAuthenticated());
+    res.json({ sessionId: req.sessionID });
+  });
   // Route link
   app.use("/api", router);
-
   // Error Handler
   app.use(errorHandler);
 

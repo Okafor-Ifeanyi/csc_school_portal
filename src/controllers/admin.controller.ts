@@ -4,6 +4,7 @@ import { generateRandomAvatar } from "../utils/avatar.util";
 import { IVerifyOptions } from "passport-local";
 import "../configs/passport.config";
 import passport from "passport";
+import { HttpException } from "../httpexception/httpExceptions";
 
 export const register = async (
   req: Request,
@@ -33,23 +34,25 @@ export const login = async (
 ) => {
   passport.authenticate(
     "local",
-    (err: Error, user: unknown, info: IVerifyOptions) => {
+    (err: Error, user: any, info: IVerifyOptions) => {
       if (err) {
         return next(err);
       }
       if (!user) {
-        req.flash("errors", info.message);
-        return res.redirect("/login");
+        throw new HttpException(401, info.message);
       }
-      console.log("1. Working");
-      console.log(user);
+
       req.logIn(user, (err) => {
-        console.log("2. Working");
         if (err) {
           return next(err);
         }
-        req.flash("success", "Success! You are logged in.");
-        // res.redirect(req.session.returnTo || "/");
+
+        console.log("is authenticated?: " + req.isAuthenticated());
+        res.status(201).json({
+          message: "User created",
+          success: true,
+          data: req.user,
+        });
       });
     },
   )(req, res, next);
@@ -61,9 +64,18 @@ export const getAllAdmins = async (
   next: NextFunction,
 ) => {
   try {
-    const admin = await services.GetAdmins();
+    // Extract parameters from the query string
+    const { department, roles, limit, order } = req.query;
 
-    res.json({ data: admin, success: true });
+    // Call the dynamic GetAdmins function with parameters
+    const admins = await services.GetAdmins(
+      department as string | undefined,
+      roles as string[] | undefined,
+      limit ? Number(limit) : undefined,
+      order as "asc" | "desc" | undefined,
+    );
+
+    res.json({ data: admins, success: true });
   } catch (error) {
     next(error);
   }
@@ -74,46 +86,48 @@ export const getSingleAdmin = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const filter = req.params.id.startsWith("@")
-    ? { handle: req.params.id }
-    : { _id: req.params.id };
+  const filter =
+    req.query.myprofile === "true"
+      ? { _id: req.user?._id }
+      : { _id: req.params.id };
   try {
     const admin = await services.GetAdmin(filter);
 
-    res.json({ data: admin, success: true });
+    admin;
+    res.json({ success: true });
   } catch (error) {
     next(error);
   }
 };
 
-// export const updateAdmin = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction,
-// ) => {
-//   try {
-//     const admin = await services.UpdateAdmin(req.user?._id, req.body);
+export const updateAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const admin = await services.UpdateAdmin(req.user?._id, req.body);
 
-//     res.json({
-//       data: admin,
-//       message: 'Admin successfully updated',
-//       success: true,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    res.json({
+      data: admin,
+      message: "Admin successfully updated",
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
-// export const deleteAdmin = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction,
-// ) => {
-//   try {
-//     await services.UpdateAdmin(req.user?._id, { isDeleted: true });
+export const deleteAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    await services.UpdateAdmin(req.user?._id, { isDeleted: true });
 
-//     res.json({ message: 'Admin has been deleted', success: true });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    res.json({ message: "Admin has been deleted", success: true });
+  } catch (error) {
+    next(error);
+  }
+};

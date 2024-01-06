@@ -28,8 +28,10 @@ export const loginSchema = Joi.object().keys({
 });
 
 export const updateSchema = Joi.object().keys({
-  first_name: Joi.string().required(),
-  last_name: Joi.string().required(),
+  first_name: Joi.string().allow(""),
+  last_name: Joi.string().allow(""),
   phone_number: Joi.string().allow(""),
   profile_picture: Joi.string().allow(""),
+  role: Joi.forbidden(),
+  department: Joi.forbidden(),
 });

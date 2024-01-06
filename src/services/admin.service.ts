@@ -3,8 +3,35 @@ import { HttpException } from "../httpexception/httpExceptions";
 import { IAdmin } from "../interfaces/admin.interface";
 import Admin from "../models/admin.model";
 
-export const GetAdmins = async () => {
-  return await Admin.find({ isDeleted: false }, "-__v -password -isDeleted");
+export const GetAdmins = async (
+  department?: string | undefined,
+  roles?: string[] | undefined,
+  limit?: number | undefined,
+  order?: "asc" | "desc" | undefined,
+) => {
+  const query: any = { isDeleted: false };
+
+  if (roles && roles.length > 0) {
+    query.role = { $in: roles };
+  }
+
+  if (department) {
+    query.department = department;
+  }
+
+  const adminsQuery = Admin.find(query, "-__v -password -isDeleted");
+
+  // Always sort by a specific field, for example, 'createdAt'
+  if (order) {
+    const sortDirection = order === "desc" ? -1 : 1;
+    adminsQuery.sort({ createdAt: sortDirection });
+  }
+
+  if (limit) {
+    adminsQuery.limit(Number(limit));
+  }
+
+  return await adminsQuery.exec();
 };
 
 export const GetAdmin = async (filter: FilterQuery<IAdmin>) => {
@@ -13,7 +40,7 @@ export const GetAdmin = async (filter: FilterQuery<IAdmin>) => {
       { ...filter, isDeleted: false },
       "-__v -password -isDeleted",
     );
-  } catch (error: unknown) {
+  } catch (error: any) {
     throw new HttpException(404, "Could not find admin");
   }
 };

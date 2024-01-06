@@ -2,18 +2,17 @@ import { Router } from "express";
 import {
   register,
   login,
-  // deleteAdmin,
+  deleteAdmin,
   getAllAdmins,
   getSingleAdmin,
-  // updateAdmin,
+  updateAdmin,
 } from "../controllers/admin.controller";
 import isAuth from "../middlewares/auth.middleware";
-
 import validate from "../middlewares/validate.middleware";
 import {
   loginSchema,
   registerSchema,
-  // updateSchema,
+  updateSchema,
 } from "../schemas/admin.schema";
 
 const router = Router();
@@ -26,8 +25,8 @@ router.get("/", isAuth, getAllAdmins);
 
 router.get("/:id", getSingleAdmin);
 
-// router.patch('/update', isAuth, validate(updateSchema), updateAdmin);
+router.patch("/update", isAuth, validate(updateSchema), updateAdmin);
 
-// router.delete('/delete', isAuth, deleteAdmin);
+router.delete("/delete", isAuth, deleteAdmin);
 
 export default router;

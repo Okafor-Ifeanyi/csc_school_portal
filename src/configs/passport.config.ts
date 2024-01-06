@@ -1,21 +1,14 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import Admin from "../models/admin.model";
-
-passport.serializeUser<any, any>((req, user, done) => {
-  done(undefined, user);
-});
-
-passport.deserializeUser((id, done) => {
-  Admin.findById(id, (err: NativeError, user: any) => done(err, user));
-});
+import { Request } from "express";
 
 /**
  * Sign in using Email and Password.
  */
 passport.use(
   new LocalStrategy(
-    { usernameField: "email" },
+    { usernameField: "email", passwordField: "password" },
     async (email, password, done) => {
       try {
         const user = await Admin.findOne({ email: email.toLowerCase() });
@@ -41,3 +34,18 @@ passport.use(
     },
   ),
 );
+
+passport.serializeUser((user: any, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser(async (req: Request, id: string, done: any) => {
+  try {
+    const user = await Admin.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
+
+export default passport;

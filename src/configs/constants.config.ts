@@ -7,7 +7,7 @@ export const JWT_SECRET = process.env.JWT_SECRET;
 export const COOKIE_SECRET = process.env.COOKIE_SECRET;
 export const PORT: number = parseInt(process.env.PORT || "5000", 10);
 export const SECRET = process.env.SECRET!;
-export const MAXAGE = 60 * 60;
+export const MAXAGE = 30 * 60 * 1000;
 export const BASEPATH = "/api/v1";
 
 export const ENUM = {

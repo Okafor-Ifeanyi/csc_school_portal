@@ -7,7 +7,7 @@ import {
   getSingleAdmin,
   updateAdmin,
 } from "../controllers/admin.controller";
-import isAuth from "../middlewares/auth.middleware";
+import { isAuth } from "../middlewares/auth.middleware";
 import validate from "../middlewares/validate.middleware";
 import {
   loginSchema,

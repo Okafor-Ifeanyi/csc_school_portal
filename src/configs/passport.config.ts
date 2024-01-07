@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import Admin from "../models/admin.model";
+import Admin, { AdminDocument } from "../models/admin.model";
 import { Request } from "express";
 
 /**
@@ -11,8 +11,10 @@ passport.use(
     { usernameField: "email", passwordField: "password" },
     async (email, password, done) => {
       try {
-        const user = await Admin.findOne({ email: email.toLowerCase() });
-
+        const user: AdminDocument | null = await Admin.findOne({
+          email: email.toLowerCase(),
+        });
+        console.log(user);
         if (!user) {
           return done(undefined, false, {
             message: `Email ${email} not found.`,
@@ -41,7 +43,7 @@ passport.serializeUser((user: any, done) => {
 
 passport.deserializeUser(async (req: Request, id: string, done: any) => {
   try {
-    const user = await Admin.findById(id);
+    const user: AdminDocument | null = await Admin.findById(id);
     done(null, user);
   } catch (error) {
     done(error);

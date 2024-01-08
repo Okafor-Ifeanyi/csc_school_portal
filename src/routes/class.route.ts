@@ -12,7 +12,7 @@ import { registerSchema, updateSchema } from "../schemas/class.schema";
 
 const router = Router();
 
-router.post("/register", validate(registerSchema), createClass);
+router.post("/register", isAuth, isHOD, validate(registerSchema), createClass);
 
 router.get("/", isAuth, isHOD, getAllClasses);
 

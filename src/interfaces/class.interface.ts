@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export interface IClass {
   name: string;
   department: string;
@@ -5,4 +7,5 @@ export interface IClass {
   current_level: number;
   has_graduated: boolean;
   is_deleted: boolean;
+  advisor_id: Types.ObjectId;
 }

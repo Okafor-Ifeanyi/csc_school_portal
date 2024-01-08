@@ -14,7 +14,7 @@ passport.use(
         const user: AdminDocument | null = await Admin.findOne({
           email: email.toLowerCase(),
         });
-        console.log(user);
+
         if (!user) {
           return done(undefined, false, {
             message: `Email ${email} not found.`,

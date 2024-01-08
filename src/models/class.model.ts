@@ -24,10 +24,16 @@ const ClassSchema = new Schema<IClass, ClassModel>(
     },
     has_graduated: {
       type: Boolean,
+      default: false,
     },
     is_deleted: {
       type: Boolean,
       default: false,
+    },
+    advisor_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Admin",
+      required: true,
     },
   },
   {

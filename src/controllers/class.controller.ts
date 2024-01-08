@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as services from "../services/class.service";
+import { Types } from "mongoose";
 
 export const createClass = async (
   req: Request,
@@ -7,10 +8,10 @@ export const createClass = async (
   next: NextFunction,
 ) => {
   try {
-    const department = req.user?.department;
+    // const department = req.user?.department;
     const new_user = await services.CreateClass({
       ...req.body,
-      department,
+      //   department,
     });
 
     res.status(201).json({
@@ -75,8 +76,9 @@ export const updateClass = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const _id: Types.ObjectId = Types.ObjectId.createFromHexString(req.params.id);
   try {
-    const data = await services.UpdateClass(req.user?._id, req.body);
+    const data = await services.UpdateClass(_id, req.body);
 
     res.status(201).json({
       data: data,
@@ -94,7 +96,11 @@ export const deleteClass = async (
   next: NextFunction,
 ) => {
   try {
-    await services.UpdateClass(req.user?._id, { is_deleted: true });
+    const _id: Types.ObjectId = Types.ObjectId.createFromHexString(
+      req.params.id,
+    );
+
+    await services.UpdateClass(_id, { is_deleted: true });
 
     res.status(201).json({ message: "Class has been deleted", success: true });
   } catch (error) {

@@ -2,6 +2,7 @@ import { FilterQuery, Types } from "mongoose";
 import { HttpException } from "../httpexception/httpExceptions";
 import { IClass } from "../interfaces/class.interface";
 import Class from "../models/class.model";
+import Admin, { AdminDocument } from "../models/admin.model";
 
 export const GetClasses = async (
   department?: string | undefined,
@@ -28,7 +29,7 @@ export const GetClasses = async (
   if (hasGraduated != undefined) {
     query.has_graduated = hasGraduated;
   }
-  const classQuery = Class.find(query, "-__v -password -isDeleted");
+  const classQuery = Class.find(query, "-__v -is_deleted");
 
   // Always sort by a specific field, for example, 'createdAt'
   if (order) {
@@ -46,7 +47,7 @@ export const GetClasses = async (
 export const GetClass = async (filter: FilterQuery<IClass>) => {
   try {
     return await Class.findOne(
-      { ...filter, isDeleted: false },
+      { ...filter, is_deleted: false },
       "-__v -password -isDeleted",
     );
   } catch (error: any) {
@@ -55,11 +56,16 @@ export const GetClass = async (filter: FilterQuery<IClass>) => {
 };
 
 export const CreateClass = async (input: IClass) => {
-  const { name } = input;
+  const { name, advisor_id } = input;
+
+  const check_advisor: AdminDocument | null = await Admin.findById(advisor_id);
+  if (check_advisor?.role !== "advisor") {
+    throw new HttpException(403, "Provided Advisor ID is not an Advisor");
+  }
 
   const classExists = await Class.findOne(
     { name },
-    "-__v -password -isDeleted",
+    "-__v -password -is_deleted",
   );
 
   if (classExists && !classExists?.is_deleted) {
@@ -84,6 +90,6 @@ export const UpdateClass = async (
   }
 
   return await Class.findByIdAndUpdate(_id, input, { new: true }).select(
-    "-isDeleted -__v -password",
+    "-is_deleted -__v -password",
   );
 };

@@ -1,13 +1,12 @@
 import bcrypt from "bcryptjs";
-import { Schema, model, Model } from "mongoose";
+import { Schema, model, Model, Document } from "mongoose";
 import { IAdmin, IAdminMethods } from "../interfaces/admin.interface";
 import { ENUM } from "../configs/constants.config";
 
-type AdminModel = Model<IAdmin, object, IAdminMethods>;
-// type comparePasswordFunction = (
-//   candidatePassword: string,
-//   cb: (err: unknown, isMatch: unknown) => void,
-// ) => void;
+// export type AdminDocument = Document<IAdmin> & IAdminMethods
+export interface AdminDocument extends Document, IAdmin, IAdminMethods {}
+
+type AdminModel = Model<AdminDocument>;
 
 const adminSchema = new Schema<IAdmin, AdminModel, IAdminMethods>(
   {
@@ -66,14 +65,6 @@ adminSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
-
-// const comparePassword: comparePasswordFunction = function (password, cb) {
-//   bcrypt.compare(password, this.password, (err: Error | null, isMatch: boolean) => {
-//       cb(err, isMatch);
-//   });
-// };
-
-// adminSchema.methods.matchPassword = comparePassword
 
 adminSchema.methods.matchPassword = async function (password: string) {
   return await bcrypt.compare(password, this.password);

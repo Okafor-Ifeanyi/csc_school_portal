@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
-import admin from "./admin.router";
+import admin from "./admin.route";
+import data from "./class.route";
 const router = Router();
 
 router.get("/healthcheck", (req: Request, res: Response) => {
@@ -11,5 +12,6 @@ router.get("/docs", (req: Request, res: Response) => {
 });
 
 router.use("/admins", admin);
+router.use("/classes", data);
 
 export default router;

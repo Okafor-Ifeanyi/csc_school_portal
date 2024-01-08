@@ -67,10 +67,6 @@ export const CreateAdmin = async (input: IAdmin) => {
     throw new HttpException(400, `Admin with email ${email} already exists`);
   }
 
-  //   if (adminExists?.handle == handle && !adminExists?.isDeleted) {
-  //     throw new HttpException(400, `Admin with handle ${handle} already exists`);
-  //   }
-
   return await Admin.create(input);
 };
 
@@ -87,12 +83,6 @@ export const UpdateAdmin = async (
   if (!admin._id.equals(_id)) {
     throw new HttpException(403, "Unauthorized request");
   }
-
-  //   if (input.handle) {
-  //     if (await Admin.findOne({ handle: input.handle })) {
-  //       throw new HttpException(400, 'Admin with handle already exists');
-  //     }
-  //   }
 
   return await Admin.findByIdAndUpdate(_id, input, { new: true }).select(
     "-isDeleted -__v -password",

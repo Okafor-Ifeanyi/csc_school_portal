@@ -5,6 +5,7 @@ import { IVerifyOptions } from "passport-local";
 import "../configs/passport.config";
 import passport from "passport";
 import { HttpException } from "../httpexception/httpExceptions";
+import { AdminDocument } from "../models/admin.model";
 
 export const register = async (
   req: Request,
@@ -34,7 +35,7 @@ export const login = async (
 ) => {
   passport.authenticate(
     "local",
-    (err: Error, user: any, info: IVerifyOptions) => {
+    (err: Error, user: AdminDocument, info: IVerifyOptions) => {
       if (err) {
         return next(err);
       }
@@ -47,9 +48,8 @@ export const login = async (
           return next(err);
         }
 
-        console.log("is authenticated?: " + req.isAuthenticated());
         res.status(201).json({
-          message: "User created",
+          message: `Logged in as: ${req.user?.email}`,
           success: true,
           data: req.user,
         });

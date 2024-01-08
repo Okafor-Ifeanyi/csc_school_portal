@@ -56,6 +56,7 @@ export const GetClass = async (filter: FilterQuery<IClass>) => {
 };
 
 export const CreateClass = async (input: IClass) => {
+  /**Creates Class Service */
   const { name, advisor_id } = input;
 
   const check_advisor: AdminDocument | null = await Admin.findById(advisor_id);

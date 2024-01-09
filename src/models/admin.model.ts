@@ -43,8 +43,8 @@ const adminSchema = new Schema<IAdmin, AdminModel, IAdminMethods>(
     },
     role: {
       type: String,
-      enum: ENUM.ROLE,
-      default: ENUM.ROLE[0],
+      enum: ENUM.ADMIN_ROLE,
+      default: ENUM.ADMIN_ROLE[1],
       required: true,
     },
     department: {

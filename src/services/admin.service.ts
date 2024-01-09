@@ -71,7 +71,7 @@ export const CreateAdmin = async (input: IAdmin) => {
 };
 
 export const UpdateAdmin = async (
-  _id: Types.ObjectId,
+  _id: Types.ObjectId | undefined,
   input: Partial<IAdmin>,
 ) => {
   const admin = await Admin.findOne({ _id });

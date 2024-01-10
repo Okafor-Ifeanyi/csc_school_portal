@@ -16,11 +16,16 @@ export interface IStudent {
   phone_number?: string;
   is_verified: boolean;
   profile_picture?: string;
-  isDeleted: boolean;
+  is_deleted: boolean;
   department: string;
   role?: StudentRole;
 }
 
 export interface IStudentMethods {
   matchPassword(password: string): Promise<boolean>;
+}
+
+export interface IStudentUpload {
+  Name: string;
+  "Reg. No": number;
 }

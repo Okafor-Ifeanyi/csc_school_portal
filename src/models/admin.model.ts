@@ -37,7 +37,7 @@ const adminSchema = new Schema<IAdmin, AdminModel, IAdminMethods>(
     profile_picture: {
       type: String,
     },
-    isDeleted: {
+    is_deleted: {
       type: Boolean,
       default: false,
     },

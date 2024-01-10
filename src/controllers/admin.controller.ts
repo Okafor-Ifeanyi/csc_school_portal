@@ -124,7 +124,7 @@ export const deleteAdmin = async (
   next: NextFunction,
 ) => {
   try {
-    await services.UpdateAdmin(req.user?._id, { isDeleted: true });
+    await services.UpdateAdmin(req.user?._id, { is_deleted: true });
 
     res.json({ message: "Admin has been deleted", success: true });
   } catch (error) {

@@ -22,7 +22,6 @@ const studentSchema = new Schema<IStudent, StudentModel, IStudentMethods>(
     },
     email: {
       type: String,
-      unique: true,
     },
     password: {
       type: String,
@@ -42,7 +41,7 @@ const studentSchema = new Schema<IStudent, StudentModel, IStudentMethods>(
     profile_picture: {
       type: String,
     },
-    isDeleted: {
+    is_deleted: {
       type: Boolean,
       default: false,
     },

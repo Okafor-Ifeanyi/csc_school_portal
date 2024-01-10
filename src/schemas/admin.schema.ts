@@ -15,7 +15,7 @@ export const registerSchema = Joi.object().keys({
   phone_number: Joi.string(),
   status: Joi.boolean().default(true),
   profile_picture: Joi.string().allow(""),
-  isDeleted: Joi.boolean().default(false),
+  is_deleted: Joi.boolean().default(false),
   role: Joi.string()
     .valid(...Object.values(AdminRole))
     .default(AdminRole.HOD),

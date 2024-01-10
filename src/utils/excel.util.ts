@@ -10,8 +10,6 @@ export const excelToJson = (file: string) => {
   // Convert the sheet data to a JSON object
   const jsonData: any[] = XLSX.utils.sheet_to_json(sheet);
 
-  console.log(jsonData);
-
   return jsonData;
 };
 

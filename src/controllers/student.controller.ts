@@ -7,6 +7,7 @@ import passport from "passport";
 import { HttpException } from "../httpexception/httpExceptions";
 import { StudentDocument } from "../models/student.model";
 import { excelToJson } from "../utils/excel.util";
+import { IStudentUpload } from "../interfaces/student.interface";
 
 export const register = async (
   req: Request,
@@ -35,16 +36,26 @@ export const uploadStudent = async (
   next: NextFunction,
 ) => {
   try {
-    const student_list = excelToJson(req.files?.class_list.path);
-
-    // const new_user = await services.CreateStudent({
-    //   ...req.body,
-    // 0,
-    // });
+    // console.log(req.files)
+    const student_list: IStudentUpload[] = excelToJson(
+      req.files?.class_list.path,
+    );
+    console.log(student_list);
+    const registered: StudentDocument[] = [];
+    for (const student of student_list) {
+      console.log(student);
+      const new_user = await services.CreateStudent({
+        ...req.body,
+        full_name: student.Name,
+        reg_number: student["Reg. No"],
+        password: student["Reg. No"],
+      });
+      registered.push(new_user);
+    }
 
     res
       .status(201)
-      .json({ message: "User created", success: true, data: student_list });
+      .json({ message: "User created", success: true, data: registered });
   } catch (error) {
     next(error);
   }
@@ -146,7 +157,7 @@ export const deleteStudent = async (
   next: NextFunction,
 ) => {
   try {
-    await services.UpdateStudent(req.user?._id, { isDeleted: true });
+    await services.UpdateStudent(req.user?._id, { is_deleted: true });
 
     res.json({ message: "Student has been deleted", success: true });
   } catch (error) {

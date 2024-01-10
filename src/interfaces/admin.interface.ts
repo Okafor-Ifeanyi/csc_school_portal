@@ -16,7 +16,7 @@ export interface IAdmin {
   phone_number?: string;
   status: boolean;
   profile_picture?: string;
-  isDeleted: boolean;
+  is_deleted: boolean;
   department?: string;
   role?: AdminRole;
 }

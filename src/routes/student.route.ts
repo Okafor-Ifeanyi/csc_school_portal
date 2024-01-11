@@ -12,14 +12,16 @@ import { isAuth } from "../middlewares/auth.middleware";
 import validate from "../middlewares/validate.middleware";
 import {
   loginSchema,
+  uploadSchema,
   registerSchema,
   updateSchema,
-} from "../schemas/admin.schema";
+} from "../schemas/student.schema";
 
 const router = Router();
 
 router.post("/register", validate(registerSchema), register);
-router.post("/upload", uploadStudent);
+
+router.post("/upload", validate(uploadSchema), uploadStudent);
 
 router.post("/login", validate(loginSchema), login);
 

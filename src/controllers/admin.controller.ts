@@ -1,11 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as services from "../services/admin.service";
 import { generateRandomAvatar } from "../utils/avatar.util";
-import { IVerifyOptions } from "passport-local";
-import "../configs/passport.config";
-import passport from "passport";
-import { HttpException } from "../httpexception/httpExceptions";
-import { AdminDocument } from "../models/admin.model";
 
 export const register = async (
   req: Request,
@@ -28,35 +23,6 @@ export const register = async (
   }
 };
 
-export const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  passport.authenticate(
-    "local",
-    (err: Error, user: AdminDocument, info: IVerifyOptions) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        throw new HttpException(401, info.message);
-      }
-
-      req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-        }
-
-        res.status(201).json({
-          message: `Logged in as: ${req.user?.email}`,
-          success: true,
-          data: req.user,
-        });
-      });
-    },
-  )(req, res, next);
-};
 
 export const getAllAdmins = async (
   req: Request,

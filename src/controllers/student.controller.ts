@@ -36,14 +36,17 @@ export const uploadStudent = async (
   next: NextFunction,
 ) => {
   try {
-    // console.log(req.files)
+    /**This Controller is used to Register a class list of students to the database
+     * with an association to their class
+     */
+
     const student_list: IStudentUpload[] = excelToJson(
       req.files?.class_list.path,
     );
-    console.log(student_list);
+
     const registered: StudentDocument[] = [];
+
     for (const student of student_list) {
-      console.log(student);
       const new_user = await services.CreateStudent({
         ...req.body,
         full_name: student.Name,
@@ -53,9 +56,11 @@ export const uploadStudent = async (
       registered.push(new_user);
     }
 
-    res
-      .status(201)
-      .json({ message: "User created", success: true, data: registered });
+    res.status(201).json({
+      message: "Students Created Successfully",
+      success: true,
+      data: registered,
+    });
   } catch (error) {
     next(error);
   }

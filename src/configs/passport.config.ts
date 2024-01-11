@@ -8,16 +8,15 @@ import { Request } from "express";
  */
 passport.use(
   new LocalStrategy(
-    { usernameField: "email", passwordField: "password" },
-    async (email, password, done) => {
+    { usernameField: "username", passwordField: "password" },
+    async (username, password, done) => {
       try {
-        const user: AdminDocument | null = await Admin.findOne({
-          email: email.toLowerCase(),
-        });
+        const user: AdminDocument | null = await Admin.findOne({ email: username });
 
+        // const
         if (!user) {
           return done(undefined, false, {
-            message: `Email ${email} not found.`,
+            message: `Email ${username} not found.`,
           });
         }
 

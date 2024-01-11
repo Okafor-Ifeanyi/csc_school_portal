@@ -1,7 +1,6 @@
 import { Router } from "express";
 import {
   register,
-  login,
   deleteAdmin,
   getAllAdmins,
   getSingleAdmin,
@@ -10,7 +9,6 @@ import {
 import { isAuth } from "../middlewares/auth.middleware";
 import validate from "../middlewares/validate.middleware";
 import {
-  loginSchema,
   registerSchema,
   updateSchema,
 } from "../schemas/admin.schema";
@@ -19,7 +17,6 @@ const router = Router();
 
 router.post("/register", validate(registerSchema), register);
 
-router.post("/login", validate(loginSchema), login);
 
 router.get("/", isAuth, getAllAdmins);
 

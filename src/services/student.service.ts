@@ -1,7 +1,7 @@
 import { FilterQuery, Types } from "mongoose";
 import { HttpException } from "../httpexception/httpExceptions";
 import { IStudent } from "../interfaces/student.interface";
-import Student from "../models/student.model";
+import Student, { StudentDocument } from "../models/student.model";
 import Class, { ClassDocument } from "../models/class.model";
 
 export const GetStudents = async (
@@ -77,8 +77,51 @@ export const CreateStudent = async (input: IStudent) => {
       `Student with reg number ${reg_number} already exists`,
     );
   }
+  const new_student: StudentDocument = await Student.create(input);
 
-  return await Student.create(input);
+  // Use $lookup to join the 'students' collection with the 'class' collection
+  const studentsWithClassInfo = await Student.aggregate([
+    {
+      $match: { _id: new_student._id }, // Match the newly created student
+    },
+    {
+      $lookup: {
+        from: "classes", // The name of the 'class' collection
+        localField: "class_id",
+        foreignField: "_id",
+        as: "class_info",
+      },
+    },
+    {
+      $unwind: {
+        path: "$class_info",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $project: {
+        // Include fields from the 'students' collection
+        _id: 1,
+        reg_number: 1,
+        full_name: 1,
+        is_verified: 1,
+        role: 1,
+        class_id: 1,
+        // Add more student fields as needed
+
+        // Include fields from the 'class' collection
+        "class_info.name": 1,
+        "class_info.department": 1,
+        "class_info.advisor_id": 1,
+        "class_info.enrollement_year": 1,
+        "class_info.current_level": 1,
+
+        // Add more class fields as needed
+      },
+    },
+  ]);
+
+  return studentsWithClassInfo[0];
 };
 
 export const UpdateStudent = async (

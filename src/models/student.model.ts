@@ -12,7 +12,7 @@ const studentSchema = new Schema<IStudent, StudentModel, IStudentMethods>(
   {
     class_id: {
       type: Schema.Types.ObjectId,
-      ref: "Admin",
+      ref: "Class",
       required: true,
     },
     reg_number: {
@@ -51,10 +51,6 @@ const studentSchema = new Schema<IStudent, StudentModel, IStudentMethods>(
       default: ENUM.STUDENT_ROLE[2],
       required: true,
     },
-    department: {
-      type: String,
-      default: "Computer Science",
-    },
   },
   {
     timestamps: true,
@@ -65,7 +61,6 @@ studentSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
-
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });

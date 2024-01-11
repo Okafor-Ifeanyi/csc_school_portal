@@ -17,7 +17,6 @@ export interface IStudent {
   is_verified: boolean;
   profile_picture?: string;
   is_deleted: boolean;
-  department: string;
   role?: StudentRole;
 }
 

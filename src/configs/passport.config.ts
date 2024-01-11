@@ -11,7 +11,9 @@ passport.use(
     { usernameField: "username", passwordField: "password" },
     async (username, password, done) => {
       try {
-        const user: AdminDocument | null = await Admin.findOne({ email: username });
+        const user: AdminDocument | null = await Admin.findOne({
+          email: username,
+        });
 
         // const
         if (!user) {

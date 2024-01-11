@@ -15,10 +15,9 @@ router.get("/docs", (req: Request, res: Response) => {
   res.redirect("https://documenter.getpostman.com/view/26151840/2s93JtQixJ");
 });
 
-router.post("/auth/login", validate(loginSchema), login)
+router.post("/auth/login", validate(loginSchema), login);
 router.use("/admins", admin);
 router.use("/classes", data);
 router.use("/students", student);
-
 
 export default router;

@@ -8,15 +8,11 @@ import {
 } from "../controllers/admin.controller";
 import { isAuth } from "../middlewares/auth.middleware";
 import validate from "../middlewares/validate.middleware";
-import {
-  registerSchema,
-  updateSchema,
-} from "../schemas/admin.schema";
+import { registerSchema, updateSchema } from "../schemas/admin.schema";
 
 const router = Router();
 
 router.post("/register", validate(registerSchema), register);
-
 
 router.get("/", isAuth, getAllAdmins);
 

@@ -23,7 +23,6 @@ export const register = async (
   }
 };
 
-
 export const getAllAdmins = async (
   req: Request,
   res: Response,

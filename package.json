@@ -4,8 +4,8 @@
   "description": "My Team and I building a School Portal for my Department to help them populate student results and calculate students CGPA by the session",
   "main": "public/server.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --loader ts-node/esm src/server.ts",
+    "start": "node public/server.js",
+    "dev": "node src/server.ts",
     "ts-dev": "nodemon src/server.ts",
     "build": "tsc",
     "test": "jest",

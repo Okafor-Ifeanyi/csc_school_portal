@@ -9,7 +9,7 @@ export const GetAdmins = async (
   limit?: number | undefined,
   order?: "asc" | "desc" | undefined,
 ) => {
-  const query: any = { isDeleted: false };
+  const query: any = { is_deleted: false };
 
   if (roles && roles.length > 0) {
     query.role = { $in: roles };
@@ -19,7 +19,7 @@ export const GetAdmins = async (
     query.department = department;
   }
 
-  const adminsQuery = Admin.find(query, "-__v -password -isDeleted");
+  const adminsQuery = Admin.find(query, "-__v -password -is_deleted");
 
   // Always sort by a specific field, for example, 'createdAt'
   if (order) {
@@ -37,8 +37,8 @@ export const GetAdmins = async (
 export const GetAdmin = async (filter: FilterQuery<IAdmin>) => {
   try {
     return await Admin.findOne(
-      { ...filter, isDeleted: false },
-      "-__v -password -isDeleted",
+      { ...filter, is_deleted: false },
+      "-__v -password -is_deleted",
     );
   } catch (error: any) {
     throw new HttpException(404, "Could not find admin");
@@ -48,7 +48,7 @@ export const GetAdmin = async (filter: FilterQuery<IAdmin>) => {
 export const Login = async (input: Pick<IAdmin, "email" | "password">) => {
   const { email, password } = input;
 
-  const admin = await Admin.findOne({ email, isDeleted: false });
+  const admin = await Admin.findOne({ email, is_deleted: false });
   if (!admin)
     throw new HttpException(404, `Admin with email ${email} not found`);
 
@@ -63,7 +63,7 @@ export const CreateAdmin = async (input: IAdmin) => {
 
   const adminExists = await Admin.findOne({ email });
 
-  if (adminExists && !adminExists?.isDeleted) {
+  if (adminExists && !adminExists?.is_deleted) {
     throw new HttpException(400, `Admin with email ${email} already exists`);
   }
 
@@ -71,7 +71,7 @@ export const CreateAdmin = async (input: IAdmin) => {
 };
 
 export const UpdateAdmin = async (
-  _id: Types.ObjectId,
+  _id: Types.ObjectId | undefined,
   input: Partial<IAdmin>,
 ) => {
   const admin = await Admin.findOne({ _id });
@@ -85,6 +85,6 @@ export const UpdateAdmin = async (
   }
 
   return await Admin.findByIdAndUpdate(_id, input, { new: true }).select(
-    "-isDeleted -__v -password",
+    "-is_deleted -__v -password",
   );
 };

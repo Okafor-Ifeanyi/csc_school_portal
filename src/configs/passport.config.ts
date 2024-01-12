@@ -2,22 +2,32 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import Admin, { AdminDocument } from "../models/admin.model";
 import { Request } from "express";
+import Student, { StudentDocument } from "../models/student.model";
 
 /**
  * Sign in using Email and Password.
  */
 passport.use(
   new LocalStrategy(
-    { usernameField: "email", passwordField: "password" },
-    async (email, password, done) => {
+    { usernameField: "username", passwordField: "password" },
+    async (username, password, done) => {
       try {
-        const user: AdminDocument | null = await Admin.findOne({
-          email: email.toLowerCase(),
-        });
+        let user: StudentDocument | AdminDocument | null;
 
+        if (username.startsWith("20")) {
+          user = await Student.findOne({
+            reg_number: username,
+          });
+        } else {
+          user = await Admin.findOne({
+            email: username.toLowerCase(),
+          });
+        }
+
+        // const
         if (!user) {
           return done(undefined, false, {
-            message: `Email ${email} not found.`,
+            message: `username ${username} not found.`,
           });
         }
 

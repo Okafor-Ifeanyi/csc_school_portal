@@ -12,7 +12,8 @@ export const BASEPATH = "/api/v1";
 
 export const ENUM = {
   SEX: ["M", "F", "LGBTQ"],
-  ROLE: ["hod", "advisor", "lecturer", "lab_attendant"],
+  ADMIN_ROLE: ["hod", "advisor", "lecturer", "lab_attendant"],
+  STUDENT_ROLE: ["Course Rep", "Assistant Course Rep", "Regular"],
   TITLE: ["Mr.", "Mrs.", "Ms.", "Miss"],
   STATUS: ["Pending", "Rejected", "Completed", "Active"],
   LOAN: ["Personal", "Mortgage", "Rent"],

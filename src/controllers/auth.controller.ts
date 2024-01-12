@@ -11,55 +11,31 @@ export const login = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const username: string = req.body.username;
+  passport.authenticate(
+    "local",
+    (
+      err: Error,
+      user: StudentDocument | AdminDocument,
+      info: IVerifyOptions,
+    ) => {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        throw new HttpException(401, info.message);
+      }
 
-  if (username.startsWith("20")) {
-    passport.authenticate(
-      "local",
-      (err: Error, user: StudentDocument, info: IVerifyOptions) => {
+      req.logIn(user, (err) => {
         if (err) {
           return next(err);
         }
-        if (!user) {
-          throw new HttpException(401, info.message);
-        }
-
-        req.logIn(user, (err) => {
-          if (err) {
-            return next(err);
-          }
-
-          res.status(201).json({
-            message: `Logged in as: ${req.user?.email}`,
-            success: true,
-            data: req.user,
-          });
+        console.log(typeof user);
+        res.status(201).json({
+          message: `Logged in as an: -`,
+          success: true,
+          data: req.user,
         });
-      },
-    )(req, res, next);
-  } else {
-    passport.authenticate(
-      "local",
-      (err: Error, user: AdminDocument, info: IVerifyOptions) => {
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          throw new HttpException(401, info.message);
-        }
-
-        req.logIn(user, (err) => {
-          if (err) {
-            return next(err);
-          }
-
-          res.status(201).json({
-            message: `Admin Logged in as: ${req.user?.email}`,
-            success: true,
-            data: req.user,
-          });
-        });
-      },
-    )(req, res, next);
-  }
+      });
+    },
+  )(req, res, next);
 };

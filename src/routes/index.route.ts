@@ -4,7 +4,7 @@ import data from "./class.route";
 import student from "./student.route";
 import { login } from "../controllers/auth.controller";
 import validate from "../middlewares/validate.middleware";
-import { loginSchema } from "../schemas/admin.schema";
+import { loginSchema } from "../schemas/auth.schema";
 const router = Router();
 
 router.get("/healthcheck", (req: Request, res: Response) => {

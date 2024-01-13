@@ -9,7 +9,7 @@ export const GetAdmins = async (
   limit?: number | undefined,
   order?: "asc" | "desc" | undefined,
 ) => {
-  const query: any = { is_deleted: false };
+  const query: any = { isDeleted: false };
 
   if (roles && roles.length > 0) {
     query.role = { $in: roles };
@@ -19,7 +19,7 @@ export const GetAdmins = async (
     query.department = department;
   }
 
-  const adminsQuery = Admin.find(query, "-__v -password -is_deleted");
+  const adminsQuery = Admin.find(query, "-__v -password -isDeleted");
 
   // Always sort by a specific field, for example, 'createdAt'
   if (order) {
@@ -30,14 +30,15 @@ export const GetAdmins = async (
   if (limit) {
     adminsQuery.limit(Number(limit));
   }
-
+  // console.log(adminsQuery.exec())
   return await adminsQuery.exec();
 };
 
 export const GetAdmin = async (filter: FilterQuery<IAdmin>) => {
+  console.log(filter)
   try {
     return await Admin.findOne(
-      { ...filter, is_deleted: false },
+      { ...filter, isDeleted: false },
       "-__v -password -is_deleted",
     );
   } catch (error: any) {
@@ -85,6 +86,6 @@ export const UpdateAdmin = async (
   }
 
   return await Admin.findByIdAndUpdate(_id, input, { new: true }).select(
-    "-is_deleted -__v -password",
+    "-isDeleted -__v -password",
   );
 };

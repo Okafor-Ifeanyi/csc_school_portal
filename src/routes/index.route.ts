@@ -12,7 +12,7 @@ router.get("/healthcheck", (req: Request, res: Response) => {
 });
 
 router.get("/docs", (req: Request, res: Response) => {
-  res.redirect("https://documenter.getpostman.com/view/26151840/2s93JtQixJ");
+  res.redirect("https://documenter.getpostman.com/view/19026826/2s9YsNdAcH");
 });
 
 router.post("/auth/login", validate(loginSchema), login);

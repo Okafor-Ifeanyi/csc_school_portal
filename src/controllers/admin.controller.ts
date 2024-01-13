@@ -51,15 +51,10 @@ export const getSingleAdmin = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const filter =
-    req.query.myprofile === "true"
-      ? { _id: req.user?._id }
-      : { _id: req.params.id };
   try {
-    const admin = await services.GetAdmin(filter);
+    const admin = await services.GetAdmin({ _id: req.params.id });
 
-    admin;
-    res.json({ success: true });
+    res.json({ success: true, data: admin });
   } catch (error) {
     next(error);
   }

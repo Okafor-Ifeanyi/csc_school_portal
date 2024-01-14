@@ -6,6 +6,7 @@ import errorHandler from "../middlewares/error.middleware";
 import passport from "./passport.config";
 import flash from "express-flash";
 import sessionMiddleware from "../middlewares/session.middleware";
+import formData from "express-form-data";
 // const cookieParser = require('cookie-parser');
 
 export function createServer() {
@@ -16,6 +17,7 @@ export function createServer() {
   // Form type
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
+  app.use(formData.parse());
 
   // Setup Cross-Origin Resource Sharing
   // to enable passing requests through the frontend

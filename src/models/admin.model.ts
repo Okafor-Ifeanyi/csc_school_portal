@@ -37,14 +37,14 @@ const adminSchema = new Schema<IAdmin, AdminModel, IAdminMethods>(
     profile_picture: {
       type: String,
     },
-    isDeleted: {
+    is_deleted: {
       type: Boolean,
       default: false,
     },
     role: {
       type: String,
-      enum: ENUM.ROLE,
-      default: ENUM.ROLE[0],
+      enum: ENUM.ADMIN_ROLE,
+      default: ENUM.ADMIN_ROLE[1],
       required: true,
     },
     department: {

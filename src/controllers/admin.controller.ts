@@ -1,11 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as services from "../services/admin.service";
 import { generateRandomAvatar } from "../utils/avatar.util";
-import { IVerifyOptions } from "passport-local";
-import "../configs/passport.config";
-import passport from "passport";
-import { HttpException } from "../httpexception/httpExceptions";
-import { AdminDocument } from "../models/admin.model";
 
 export const register = async (
   req: Request,
@@ -26,36 +21,6 @@ export const register = async (
   } catch (error) {
     next(error);
   }
-};
-
-export const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  passport.authenticate(
-    "local",
-    (err: Error, user: AdminDocument, info: IVerifyOptions) => {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        throw new HttpException(401, info.message);
-      }
-
-      req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-        }
-
-        res.status(201).json({
-          message: `Logged in as: ${req.user?.email}`,
-          success: true,
-          data: req.user,
-        });
-      });
-    },
-  )(req, res, next);
 };
 
 export const getAllAdmins = async (
@@ -86,15 +51,10 @@ export const getSingleAdmin = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const filter =
-    req.query.myprofile === "true"
-      ? { _id: req.user?._id }
-      : { _id: req.params.id };
   try {
-    const admin = await services.GetAdmin(filter);
+    const admin = await services.GetAdmin({ _id: req.params.id });
 
-    admin;
-    res.json({ success: true });
+    res.json({ success: true, data: admin });
   } catch (error) {
     next(error);
   }
@@ -124,7 +84,7 @@ export const deleteAdmin = async (
   next: NextFunction,
 ) => {
   try {
-    await services.UpdateAdmin(req.user?._id, { isDeleted: true });
+    await services.UpdateAdmin(req.user?._id, { is_deleted: true });
 
     res.json({ message: "Admin has been deleted", success: true });
   } catch (error) {

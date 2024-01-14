@@ -48,7 +48,7 @@ export const GetClass = async (filter: FilterQuery<IClass>) => {
   try {
     return await Class.findOne(
       { ...filter, is_deleted: false },
-      "-__v -password -isDeleted",
+      "-__v -password -is_deleted",
     );
   } catch (error: any) {
     throw new HttpException(404, "Could not find class");

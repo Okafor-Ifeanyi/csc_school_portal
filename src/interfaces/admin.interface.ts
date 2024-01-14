@@ -1,3 +1,5 @@
+import { EmailOptions } from "joi";
+
 // Define an enum for the possible roles
 enum AdminRole {
   HOD = "hod",
@@ -7,14 +9,14 @@ enum AdminRole {
 }
 
 export interface IAdmin {
-  email: string;
+  email: EmailOptions;
   password: string;
   first_name: string;
   last_name: string;
   phone_number?: string;
   status: boolean;
   profile_picture?: string;
-  isDeleted: boolean;
+  is_deleted: boolean;
   department?: string;
   role?: AdminRole;
 }

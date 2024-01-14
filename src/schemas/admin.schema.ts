@@ -8,18 +8,14 @@ enum AdminRole {
 }
 
 export const registerSchema = Joi.object().keys({
-  email: Joi.string().email().required(),
+  fullname: Joi.string().required(),
   password: Joi.string().min(6).required(),
-  first_name: Joi.string().required(),
-  last_name: Joi.string().required(),
-  phone_number: Joi.string(),
-  status: Joi.boolean().default(true),
+  reg_number: Joi.number().max(11).required(),
   profile_picture: Joi.string().allow(""),
-  isDeleted: Joi.boolean().default(false),
+  is_deleted: Joi.boolean().default(false),
   role: Joi.string()
     .valid(...Object.values(AdminRole))
     .default(AdminRole.HOD),
-  department: Joi.string().default("Computer Science"),
 });
 
 export const loginSchema = Joi.object().keys({

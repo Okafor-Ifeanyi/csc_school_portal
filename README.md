@@ -41,6 +41,15 @@ This repository contains the backend functionalities of a Portal Management Soft
     [ `PATCH`: update a class] `/api/classes/update/<id>`
     [ `DELETE`: delete a class] `/api/classes/delete/<id>`
 
+- `students: `
+    [ `POST`: Register a new student]  `/api/students/register`
+    [ `POST`: Login a student]  `/api/students/login`
+    [ `POST`: Upload a student]  `/api/students/upload`
+    [ `GET`: get all students] `/api/students`
+    [ `GET`: get a single student] `/api/students/<id>`
+    [ `PATCH`: update a student] `/api/students/update`
+    [ `DELETE`: delete a student] `/api/students/delete`
+
 
 
 - [API Documentation](https://documenter.getpostman.com/view/26151840/2s93JtQixJ) `/api/docs` [ `GET`: get API Documentation] 

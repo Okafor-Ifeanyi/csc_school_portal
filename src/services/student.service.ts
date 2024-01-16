@@ -37,7 +37,9 @@ export const GetStudents = async (
 
 export const GetStudent = async (filter: FilterQuery<IStudent>) => {
   try {
+    // console.log(filter)
     return await Student.findOne(
+      // { ...filter},
       { ...filter, is_deleted: false },
       "-__v -password -is_deleted",
     );

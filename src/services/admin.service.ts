@@ -35,7 +35,7 @@ export const GetAdmins = async (
 };
 
 export const GetAdmin = async (filter: FilterQuery<IAdmin>) => {
-  console.log(filter)
+  console.log(filter);
   try {
     return await Admin.findOne(
       { ...filter, isDeleted: false },

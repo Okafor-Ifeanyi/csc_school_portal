@@ -124,15 +124,11 @@ export const getSingleStudent = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const filter =
-    req.query.myprofile === "true"
-      ? { _id: req.user?._id }
-      : { _id: req.params.id };
+  const filter = { _id: req.params.id };
   try {
     const student = await services.GetStudent(filter);
 
-    student;
-    res.json({ success: true });
+    res.json({ success: true, message: student });
   } catch (error) {
     next(error);
   }

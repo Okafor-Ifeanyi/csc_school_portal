@@ -29,11 +29,11 @@ export const login = async (
         if (err) {
           return next(err);
         }
-        console.log(typeof user);
+
         res.status(201).json({
           message: `Logged in as an: -`,
           success: true,
-          data: req.user,
+          user_id: req.user?._id,
         });
       });
     },

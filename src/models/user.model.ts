@@ -24,7 +24,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
       enum: ENUM.USER,
       default: ENUM.USER[1],
       required: true,
-    }
+    },
   },
   {
     timestamps: true,

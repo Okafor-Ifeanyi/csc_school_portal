@@ -29,7 +29,7 @@ export const login = async (
         if (err) {
           return next(err);
         }
-        
+
         res.status(201).json({
           message: `Logged in as an: -`,
           success: true,

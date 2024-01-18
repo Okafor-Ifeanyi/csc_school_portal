@@ -48,19 +48,6 @@ export const GetStudent = async (filter: FilterQuery<IStudent>) => {
   }
 };
 
-export const Login = async (input: Pick<IStudent, "email" | "password">) => {
-  const { email, password } = input;
-
-  const student = await Student.findOne({ email, is_deleted: false });
-  if (!student)
-    throw new HttpException(404, `Student with email ${email} not found`);
-
-  if (!student.matchPassword(password)) {
-    throw new HttpException(409, "Invalid Password");
-  }
-  return student;
-};
-
 export const CreateStudent = async (input: IStudent) => {
   const { class_id, reg_number } = input;
 

@@ -1,7 +1,8 @@
 import { EmailOptions } from "joi";
+import Types from "mongoose";
 
 // Define an enum for the possible roles
-enum AdminRole {
+export enum AdminRole {
   HOD = "hod",
   ADVISOR = "advisor",
   LAB_ATTENDANT = "lab_attendant",
@@ -9,10 +10,9 @@ enum AdminRole {
 }
 
 export interface IAdmin {
+  user_id: Types.ObjectId;
   email: EmailOptions;
-  password: string;
-  first_name: string;
-  last_name: string;
+  full_name: string;
   phone_number?: string;
   status: boolean;
   profile_picture?: string;

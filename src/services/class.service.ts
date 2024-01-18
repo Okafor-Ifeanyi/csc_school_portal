@@ -3,6 +3,7 @@ import { HttpException } from "../httpexception/httpExceptions";
 import { IClass } from "../interfaces/class.interface";
 import Class from "../models/class.model";
 import Admin, { AdminDocument } from "../models/admin.model";
+import { AdminRole } from "../interfaces/admin.interface";
 
 export const GetClasses = async (
   department?: string | undefined,
@@ -46,10 +47,16 @@ export const GetClasses = async (
 
 export const GetClass = async (filter: FilterQuery<IClass>) => {
   try {
-    return await Class.findOne(
+    const data = await Class.findOne(
       { ...filter, is_deleted: false },
       "-__v -password -is_deleted",
     );
+
+    if (!data) {
+      throw new HttpException(404, "Class not found");
+    }
+
+    return data;
   } catch (error: any) {
     throw new HttpException(404, "Could not find class");
   }
@@ -59,7 +66,11 @@ export const CreateClass = async (input: IClass) => {
   /**Creates Class Service */
   const { name, advisor_id } = input;
 
-  const check_advisor: AdminDocument | null = await Admin.findById(advisor_id);
+  const check_advisor: AdminDocument | null = await Admin.findOne({
+    user_id: advisor_id,
+    role: AdminRole.ADVISOR,
+  });
+
   if (check_advisor?.role !== "advisor") {
     throw new HttpException(403, "Provided Advisor ID is not an Advisor");
   }

@@ -1,10 +1,9 @@
 import { IVerifyOptions } from "passport-local";
 import { HttpException } from "../httpexception/httpExceptions";
-import { AdminDocument } from "../models/admin.model";
 import passport from "passport";
 import { Request, Response, NextFunction } from "express";
-import { StudentDocument } from "../models/student.model";
 import "../configs/passport.config";
+import { UserDocument } from "../models/user.model";
 
 export const login = async (
   req: Request,
@@ -13,11 +12,7 @@ export const login = async (
 ) => {
   passport.authenticate(
     "local",
-    (
-      err: Error,
-      user: StudentDocument | AdminDocument,
-      info: IVerifyOptions,
-    ) => {
+    (err: Error, user: UserDocument, info: IVerifyOptions) => {
       if (err) {
         return next(err);
       }
@@ -31,9 +26,9 @@ export const login = async (
         }
 
         res.status(201).json({
-          message: `Logged in as an: -`,
+          message: `Logged in as an: ${user.type}`,
           success: true,
-          user_id: req.user?._id,
+          user: req.user,
         });
       });
     },

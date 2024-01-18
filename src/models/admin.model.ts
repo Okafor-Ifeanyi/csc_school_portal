@@ -1,31 +1,27 @@
-import bcrypt from "bcryptjs";
-import { Schema, model, Model, Document } from "mongoose";
-import { IAdmin, IAdminMethods } from "../interfaces/admin.interface";
+import { Schema, model, Model, Document, Types } from "mongoose";
+import { IAdmin } from "../interfaces/admin.interface";
 import { ENUM } from "../configs/constants.config";
 
 // export type AdminDocument = Document<IAdmin> & IAdminMethods
-export interface AdminDocument extends Document, IAdmin, IAdminMethods {}
+export interface AdminDocument extends Document, IAdmin {}
 
 type AdminModel = Model<AdminDocument>;
 
-const adminSchema = new Schema<IAdmin, AdminModel, IAdminMethods>(
+const adminSchema = new Schema<IAdmin, AdminModel>(
   {
+    user_id: {
+      type: Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     email: {
       type: String,
       unique: true,
       required: [true, "email field is required"],
     },
-    password: {
+    full_name: {
       type: String,
-      required: [true, "password field is required"],
-    },
-    first_name: {
-      type: String,
-      required: [true, "first_name field is required"],
-    },
-    last_name: {
-      type: String,
-      required: [true, "email field is required"],
+      required: [true, "full field is required"],
     },
     phone_number: {
       type: String,
@@ -57,17 +53,11 @@ const adminSchema = new Schema<IAdmin, AdminModel, IAdminMethods>(
   },
 );
 
-adminSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
+adminSchema.methods.toJSON = function () {
+  const userData = this.toObject();
 
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
-
-adminSchema.methods.matchPassword = async function (password: string) {
-  return await bcrypt.compare(password, this.password);
+  delete userData.is_deleted;
+  return userData;
 };
 
 const Admin = model<IAdmin, AdminModel>("Admin", adminSchema);

@@ -14,6 +14,7 @@ const ClassSchema = new Schema<IClass, ClassModel>(
     department: {
       type: String,
       required: [true, "department field is required"],
+      default: "Computer Science",
     },
     enrollement_year: {
       type: String,

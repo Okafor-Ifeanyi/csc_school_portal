@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as services from "../services/student.service";
+import * as userServices from "../services/user.service";
 import { generateRandomAvatar } from "../utils/avatar.util";
 import { IVerifyOptions } from "passport-local";
 import "../configs/passport.config";
@@ -8,6 +9,8 @@ import { HttpException } from "../httpexception/httpExceptions";
 import { StudentDocument } from "../models/student.model";
 import { excelToJson } from "../utils/excel.util";
 import { IStudentUpload } from "../interfaces/student.interface";
+import { UserDocument } from "../models/user.model";
+import { UserType } from "../interfaces/user.interface";
 
 export const register = async (
   req: Request,
@@ -17,8 +20,14 @@ export const register = async (
   try {
     const profile_picture = await generateRandomAvatar(req.body.reg_number);
 
+    const user: UserDocument = await userServices.CreateUser({
+      username: req.body.reg_number,
+      password: req.body.password,
+      type: UserType.STUDENT,
+    });
     const new_user = await services.CreateStudent({
       ...req.body,
+      user_id: user.id,
       profile_picture,
     });
 
@@ -47,8 +56,14 @@ export const uploadStudent = async (
     const registered: StudentDocument[] = [];
 
     for (const student of student_list) {
+      const user = await userServices.CreateUser({
+        username: student.Name,
+        password: student["Reg. No"],
+        type: UserType.STUDENT,
+      });
       const new_user = await services.CreateStudent({
         ...req.body,
+        user_id: user._id,
         full_name: student.Name,
         reg_number: student["Reg. No"],
         password: student["Reg. No"],
@@ -124,7 +139,7 @@ export const getSingleStudent = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const filter = { _id: req.params.id };
+  const filter = { user_id: req.params.id };
   try {
     const student = await services.GetStudent(filter);
 

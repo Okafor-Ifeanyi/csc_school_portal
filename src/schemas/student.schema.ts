@@ -1,13 +1,8 @@
 import Joi from "joi";
-
-enum StudentRole {
-  course_rep = "Course Rep",
-  assistant_course_rep = "Assistant Course Rep",
-  regular = "Regular",
-}
+import { ENUM } from "../configs/constants.config";
 
 export const registerSchema = Joi.object().keys({
-  reg_number: Joi.number().required(),
+  reg_number: Joi.string().required(),
   email: Joi.string().email().allow(),
   password: Joi.string().min(8).max(30).required(),
   full_name: Joi.string().required(),
@@ -17,17 +12,20 @@ export const registerSchema = Joi.object().keys({
   profile_picture: Joi.string().allow(""),
   is_deleted: Joi.boolean().default(false),
   role: Joi.string()
-    .valid(...Object.values(StudentRole))
-    .default(StudentRole.regular),
+    .valid(...ENUM.STUDENT_ROLE)
+    .default(ENUM.STUDENT_ROLE[2]),
+  type: Joi.string()
+    .valid(...ENUM.USER)
+    .default(ENUM.USER[1]),
 });
 
 export const uploadSchema = Joi.object().keys({
-  class_list: Joi.binary().encoding("base64").required(),
+  // class_list: Joi.binary().encoding("base64").required(),
   class_id: Joi.string().length(24).hex().required(),
 });
 
 export const loginSchema = Joi.object().keys({
-  reg_number: Joi.number().required(),
+  reg_number: Joi.string().required(),
   password: Joi.string().min(8).max(30).required(),
 });
 

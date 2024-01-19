@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import * as services from "../services/admin.service";
+import * as userServices from "../services/user.service";
 import { generateRandomAvatar } from "../utils/avatar.util";
+import { UserDocument } from "../models/user.model";
+import { UserType } from "../interfaces/user.interface";
+import { ObjectId } from "mongoose";
 
 export const register = async (
   req: Request,
@@ -10,8 +14,14 @@ export const register = async (
   try {
     const profile_picture = await generateRandomAvatar(req.body.email);
 
+    const user: UserDocument = await userServices.CreateUser({
+      username: req.body.email,
+      password: req.body.password,
+      type: UserType.ADMIN,
+    });
     const new_user = await services.CreateAdmin({
       ...req.body,
+      user_id: user._id,
       profile_picture,
     });
 
@@ -52,7 +62,7 @@ export const getSingleAdmin = async (
   next: NextFunction,
 ) => {
   try {
-    const admin = await services.GetAdmin({ _id: req.params.id });
+    const admin = await services.GetAdmin({ user_id: req.params.id });
 
     res.json({ success: true, data: admin });
   } catch (error) {
@@ -66,7 +76,8 @@ export const updateAdmin = async (
   next: NextFunction,
 ) => {
   try {
-    const admin = await services.UpdateAdmin(req.user?._id, req.body);
+    const userId = req.user?._id as unknown as ObjectId;
+    const admin = await services.UpdateAdmin(userId, req.body);
 
     res.json({
       data: admin,
@@ -84,7 +95,8 @@ export const deleteAdmin = async (
   next: NextFunction,
 ) => {
   try {
-    await services.UpdateAdmin(req.user?._id, { is_deleted: true });
+    const userId = req.user?._id as unknown as ObjectId;
+    await services.UpdateAdmin(userId, req.body);
 
     res.json({ message: "Admin has been deleted", success: true });
   } catch (error) {

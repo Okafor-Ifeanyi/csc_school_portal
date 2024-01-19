@@ -1,21 +1,18 @@
 import Joi from "joi";
-
-enum AdminRole {
-  HOD = "hod",
-  ADVISOR = "advisor",
-  LAB_ATTENDANT = "lab_attendant",
-  LECTURER = "lecturer",
-}
+import { ENUM } from "../configs/constants.config";
 
 export const registerSchema = Joi.object().keys({
-  fullname: Joi.string().required(),
+  full_name: Joi.string().required(),
+  email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
-  reg_number: Joi.number().max(11).required(),
   profile_picture: Joi.string().allow(""),
   is_deleted: Joi.boolean().default(false),
   role: Joi.string()
-    .valid(...Object.values(AdminRole))
-    .default(AdminRole.HOD),
+    .valid(...ENUM.ADMIN_ROLE)
+    .default(ENUM.ADMIN_ROLE[0]),
+  type: Joi.string()
+    .valid(...ENUM.USER)
+    .default(ENUM.USER[0]),
 });
 
 export const loginSchema = Joi.object().keys({

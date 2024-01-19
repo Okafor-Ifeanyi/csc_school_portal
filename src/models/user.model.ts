@@ -44,6 +44,14 @@ userSchema.methods.matchPassword = async function (password: string) {
   return await bcrypt.compare(password, this.password);
 };
 
+userSchema.methods.toJSON = function () {
+  const userData = this.toObject();
+
+  delete userData.password;
+  delete userData.is_deleted;
+  return userData;
+};
+
 const User = model<IUser, UserModel>("User", userSchema);
 
 export default User;

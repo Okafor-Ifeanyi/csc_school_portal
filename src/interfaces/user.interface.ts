@@ -1,13 +1,11 @@
-import { EmailOptions } from "joi";
-
 // Define an enum for the possible roles
-enum UserType {
+export enum UserType {
   ADMIN = "admin",
   STUDENT = "student",
 }
 
 export interface IUser {
-  username: EmailOptions;
+  username: string;
   password: string;
   type?: UserType;
 }

@@ -1,4 +1,4 @@
-import { FilterQuery, Types } from "mongoose";
+import { FilterQuery, Schema } from "mongoose";
 import { HttpException } from "../httpexception/httpExceptions";
 import { IAdmin } from "../interfaces/admin.interface";
 import Admin from "../models/admin.model";
@@ -9,7 +9,7 @@ export const GetAdmins = async (
   limit?: number | undefined,
   order?: "asc" | "desc" | undefined,
 ) => {
-  const query: any = { isDeleted: false };
+  const query: any = { is_deleted: false };
 
   if (roles && roles.length > 0) {
     query.role = { $in: roles };
@@ -19,7 +19,7 @@ export const GetAdmins = async (
     query.department = department;
   }
 
-  const adminsQuery = Admin.find(query, "-__v -password -isDeleted");
+  const adminsQuery = Admin.find(query, "-__v -password -is_deleted");
 
   // Always sort by a specific field, for example, 'createdAt'
   if (order) {
@@ -38,25 +38,12 @@ export const GetAdmin = async (filter: FilterQuery<IAdmin>) => {
   console.log(filter);
   try {
     return await Admin.findOne(
-      { ...filter, isDeleted: false },
+      { ...filter, is_deleted: false },
       "-__v -password -is_deleted",
     );
   } catch (error: any) {
     throw new HttpException(404, "Could not find admin");
   }
-};
-
-export const Login = async (input: Pick<IAdmin, "email" | "password">) => {
-  const { email, password } = input;
-
-  const admin = await Admin.findOne({ email, is_deleted: false });
-  if (!admin)
-    throw new HttpException(404, `Admin with email ${email} not found`);
-
-  if (!admin.matchPassword(password)) {
-    throw new HttpException(409, "Invalid Password");
-  }
-  return admin;
 };
 
 export const CreateAdmin = async (input: IAdmin) => {
@@ -72,20 +59,18 @@ export const CreateAdmin = async (input: IAdmin) => {
 };
 
 export const UpdateAdmin = async (
-  _id: Types.ObjectId | undefined,
+  _id: Schema.Types.ObjectId,
   input: Partial<IAdmin>,
 ) => {
-  const admin = await Admin.findOne({ _id });
+  const admin = await Admin.findOne({ user_id: _id });
 
   if (!admin) {
     throw new HttpException(404, "Admin not found");
   }
 
-  if (!admin._id.equals(_id)) {
-    throw new HttpException(403, "Unauthorized request");
+  if (!(admin.user_id.toString() == _id.toString())) {
+    throw new HttpException(403, "Unauthorized request here");
   }
 
-  return await Admin.findByIdAndUpdate(_id, input, { new: true }).select(
-    "-isDeleted -__v -password",
-  );
+  return await Admin.findByIdAndUpdate(admin._id, input, { new: true });
 };

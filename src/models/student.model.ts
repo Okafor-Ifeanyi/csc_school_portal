@@ -1,31 +1,31 @@
-import bcrypt from "bcryptjs";
 import { Schema, model, Model, Document } from "mongoose";
-import { IStudent, IStudentMethods } from "../interfaces/student.interface";
+import { IStudent } from "../interfaces/student.interface";
 import { ENUM } from "../configs/constants.config";
 
 // export type StudentDocument = Document<IStudent> & IStudentMethods
-export interface StudentDocument extends Document, IStudent, IStudentMethods {}
+export interface StudentDocument extends Document, IStudent {}
 
 type StudentModel = Model<StudentDocument>;
 
-const studentSchema = new Schema<IStudent, StudentModel, IStudentMethods>(
+const studentSchema = new Schema<IStudent, StudentModel>(
   {
+    user_id: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     class_id: {
       type: Schema.Types.ObjectId,
       ref: "Class",
       required: true,
     },
     reg_number: {
-      type: Number,
+      type: String,
       unique: true,
       required: [true, "Reg Number is required"],
     },
     email: {
       type: String,
-    },
-    password: {
-      type: String,
-      required: [true, "password field is required"],
     },
     full_name: {
       type: String,
@@ -57,16 +57,12 @@ const studentSchema = new Schema<IStudent, StudentModel, IStudentMethods>(
   },
 );
 
-studentSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
+studentSchema.methods.toJSON = function () {
+  const userData = this.toObject();
 
-studentSchema.methods.matchPassword = async function (password: string) {
-  return await bcrypt.compare(password, this.password);
+  delete userData.password;
+  delete userData.is_deleted;
+  return userData;
 };
 
 const Student = model<IStudent, StudentModel>("Student", studentSchema);

@@ -37,26 +37,15 @@ export const GetStudents = async (
 
 export const GetStudent = async (filter: FilterQuery<IStudent>) => {
   try {
+    // console.log(filter)
     return await Student.findOne(
+      // { ...filter},
       { ...filter, is_deleted: false },
       "-__v -password -is_deleted",
     );
   } catch (error: any) {
     throw new HttpException(404, "Could not find student");
   }
-};
-
-export const Login = async (input: Pick<IStudent, "email" | "password">) => {
-  const { email, password } = input;
-
-  const student = await Student.findOne({ email, is_deleted: false });
-  if (!student)
-    throw new HttpException(404, `Student with email ${email} not found`);
-
-  if (!student.matchPassword(password)) {
-    throw new HttpException(409, "Invalid Password");
-  }
-  return student;
 };
 
 export const CreateStudent = async (input: IStudent) => {

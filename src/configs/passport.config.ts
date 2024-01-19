@@ -1,8 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import Admin, { AdminDocument } from "../models/admin.model";
 import { Request } from "express";
-import Student, { StudentDocument } from "../models/student.model";
+import User, { UserDocument } from "../models/user.model";
 
 /**
  * Sign in using Email and Password.
@@ -12,19 +11,19 @@ passport.use(
     { usernameField: "username", passwordField: "password" },
     async (username, password, done) => {
       try {
-        let user: StudentDocument | AdminDocument | null;
+        const user: UserDocument | null = await User.findOne({ username });
 
-        if (username.startsWith("20")) {
-          user = await Student.findOne({
-            reg_number: username,
-          });
-        } else {
-          user = await Admin.findOne({
-            email: username.toLowerCase(),
-          });
-        }
+        // if (username.startsWith("20")) {
+        //   user = await Student.findOne(
+        //       {  reg_number: username },
+        //       "-__v -password -is_deleted",
+        //     );
+        //   } else {
+        //   user = await Admin.findOne({
+        //     email: username.toLowerCase(),
+        //   }, "-password, -__v, -is_deleted");
+        // }
 
-        // const
         if (!user) {
           return done(undefined, false, {
             message: `username ${username} not found.`,
@@ -53,7 +52,7 @@ passport.serializeUser((user: any, done) => {
 
 passport.deserializeUser(async (req: Request, id: string, done: any) => {
   try {
-    const user: AdminDocument | null = await Admin.findById(id);
+    const user: UserDocument | null = await User.findById(id);
     done(null, user);
   } catch (error) {
     done(error);

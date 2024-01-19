@@ -8,9 +8,9 @@ enum StudentRole {
 }
 
 export interface IStudent {
+  user_id: Types.ObjectId;
   class_id: Types.ObjectId;
-  reg_number: number;
-  password: string;
+  reg_number: string;
   full_name: string;
   email?: EmailOptions;
   phone_number?: string;
@@ -26,5 +26,5 @@ export interface IStudentMethods {
 
 export interface IStudentUpload {
   Name: string;
-  "Reg. No": number;
+  "Reg. No": string;
 }

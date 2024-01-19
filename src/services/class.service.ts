@@ -77,7 +77,7 @@ export const CreateClass = async (input: IClass) => {
 
   const classExists = await Class.findOne(
     { name },
-    "-__v -password -is_deleted",
+    "-__v -is_deleted",
   );
 
   if (classExists && !classExists?.is_deleted) {
@@ -102,6 +102,6 @@ export const UpdateClass = async (
   }
 
   return await Class.findByIdAndUpdate(_id, input, { new: true }).select(
-    "-is_deleted -__v -password",
+    "-is_deleted -__v",
   );
 };

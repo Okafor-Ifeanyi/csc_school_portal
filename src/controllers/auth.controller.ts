@@ -17,6 +17,7 @@ export const login = async (
         return next(err);
       }
       if (!user) {
+        console.log(info.message);
         throw new HttpException(401, info.message);
       }
 
@@ -26,7 +27,7 @@ export const login = async (
         }
 
         res.status(201).json({
-          message: `Logged in as an: ${user.type}`,
+          message: `Logged in as : ${user.type}`,
           success: true,
           user: req.user,
         });

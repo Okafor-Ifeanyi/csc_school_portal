@@ -75,10 +75,7 @@ export const CreateClass = async (input: IClass) => {
     throw new HttpException(403, "Provided Advisor ID is not an Advisor");
   }
 
-  const classExists = await Class.findOne(
-    { name },
-    "-__v -is_deleted",
-  );
+  const classExists = await Class.findOne({ name }, "-__v -is_deleted");
 
   if (classExists && !classExists?.is_deleted) {
     throw new HttpException(400, `Class with name ${name} already exists`);

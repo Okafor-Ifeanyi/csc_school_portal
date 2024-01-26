@@ -17,12 +17,11 @@ export const login = async (
         return next(err);
       }
       if (!user) {
-        console.log(info.message);
         throw new HttpException(401, info.message);
       }
-
       req.logIn(user, (err) => {
         if (err) {
+          console.log(err);
           return next(err);
         }
 

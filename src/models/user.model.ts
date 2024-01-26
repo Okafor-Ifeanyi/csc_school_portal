@@ -13,7 +13,7 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
     username: {
       type: String,
       unique: true,
-      required: [true, "email field is required"],
+      required: [true, "email / reg number field is required"],
     },
     password: {
       type: String,
@@ -24,6 +24,10 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>(
       enum: ENUM.USER,
       default: ENUM.USER[1],
       required: true,
+    },
+    is_deleted: {
+      type: Boolean,
+      default: false,
     },
   },
   {

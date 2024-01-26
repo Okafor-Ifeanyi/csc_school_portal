@@ -46,6 +46,19 @@ describe("User", () => {
       it("returns logged in as an Admin", async () => {
         await supertest(app).post("/api/admins/register").send(registerAdmin);
 
+        // Test Wrong password Auth
+        const wrong_password = await supertest(app)
+          .post(`/api/auth/login`)
+          .send({
+            username: registerAdmin.email,
+            password: registerAdmin.email,
+          });
+
+        expect(wrong_password.status).toBe(401);
+        expect(wrong_password.body).toMatchObject({
+          message: "Invalid email or password.",
+        });
+
         const result = await supertest(app).post(`/api/auth/login`).send({
           username: registerAdmin.email,
           password: registerAdmin.password,

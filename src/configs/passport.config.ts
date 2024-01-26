@@ -12,17 +12,7 @@ passport.use(
     async (username, password, done) => {
       try {
         const user: UserDocument | null = await User.findOne({ username });
-
-        // if (username.startsWith("20")) {
-        //   user = await Student.findOne(
-        //       {  reg_number: username },
-        //       "-__v -password -is_deleted",
-        //     );
-        //   } else {
-        //   user = await Admin.findOne({
-        //     email: username.toLowerCase(),
-        //   }, "-password, -__v, -is_deleted");
-        // }
+        console.log(user);
 
         if (!user) {
           return done(undefined, false, {

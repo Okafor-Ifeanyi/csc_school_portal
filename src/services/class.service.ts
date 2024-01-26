@@ -94,9 +94,9 @@ export const UpdateClass = async (
     throw new HttpException(404, "Class not found");
   }
 
-  if (!data._id.equals(_id)) {
-    throw new HttpException(403, "Unauthorized request");
-  }
+  // if (!data._id.equals(_id)) {
+  //   throw new HttpException(403, "Unauthorized request");
+  // }
 
   return await Class.findByIdAndUpdate(_id, input, { new: true }).select(
     "-is_deleted -__v",

@@ -4,18 +4,19 @@ import { IUser } from "../interfaces/user.interface";
 import User from "../models/user.model";
 
 export const GetUsers = async (
-  roles?: string[] | undefined,
+  type?: string | undefined,
   limit?: number | undefined,
   order?: "asc" | "desc" | undefined,
 ) => {
   const query: any = { is_deleted: false };
 
-  if (roles && roles.length > 0) {
-    query.role = { $in: roles };
+  if (type) {
+    query.type = { $in: type };
   }
 
   const usersQuery = User.find(query, "-__v");
 
+  // console.log(usersQuery)
   // Always sort by a specific field, for example, 'createdAt'
   if (order) {
     const sortDirection = order === "desc" ? -1 : 1;
@@ -25,14 +26,18 @@ export const GetUsers = async (
   if (limit) {
     usersQuery.limit(Number(limit));
   }
-  // console.log(usersQuery.exec())
+  // console.log(await usersQuery.exec())
   return await usersQuery.exec();
 };
 
 export const GetUser = async (filter: FilterQuery<IUser>) => {
-  console.log(filter);
   try {
-    return await User.findOne({ ...filter });
+    const user_data = await User.findOne({ ...filter, is_deleted: false });
+
+    if (!user_data) {
+      throw new HttpException(404, "Could not find user");
+    }
+    return user_data;
   } catch (error: any) {
     throw new HttpException(404, "Could not find user");
   }

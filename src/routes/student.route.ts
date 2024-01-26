@@ -31,6 +31,6 @@ router.get("/:id", getSingleStudent);
 
 router.patch("/update", isAuth, validate(updateSchema), updateStudent);
 
-router.delete("/delete", isHOD, deleteStudent);
+router.delete("/delete/:id", isHOD, deleteStudent);
 
 export default router;

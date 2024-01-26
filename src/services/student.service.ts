@@ -117,7 +117,7 @@ export const UpdateStudent = async (
   _id: Types.ObjectId | undefined,
   input: Partial<IStudent>,
 ) => {
-  const student = await Student.findOne({ _id });
+  const student = await Student.findOne({ _id, is_deleted: false });
 
   if (!student) {
     throw new HttpException(404, "Student not found");

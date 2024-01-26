@@ -11,6 +11,7 @@ import { excelToJson } from "../utils/excel.util";
 import { IStudentUpload } from "../interfaces/student.interface";
 import { UserDocument } from "../models/user.model";
 import { UserType } from "../interfaces/user.interface";
+import { Types } from "mongoose";
 
 export const register = async (
   req: Request,
@@ -57,7 +58,7 @@ export const uploadStudent = async (
 
     for (const student of student_list) {
       const user = await userServices.CreateUser({
-        username: student.Name,
+        username: student["Reg. No"],
         password: student["Reg. No"],
         type: UserType.STUDENT,
       });
@@ -143,7 +144,7 @@ export const getSingleStudent = async (
   try {
     const student = await services.GetStudent(filter);
 
-    res.json({ success: true, message: student });
+    res.status(201).json({ success: true, message: student });
   } catch (error) {
     next(error);
   }
@@ -172,10 +173,13 @@ export const deleteStudent = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const userId = req.params.id as unknown as Types.ObjectId;
   try {
-    await services.UpdateStudent(req.user?._id, { is_deleted: true });
+    await services.UpdateStudent(userId, { is_deleted: true });
 
-    res.json({ message: "Student has been deleted", success: true });
+    res
+      .status(201)
+      .json({ message: "Student has been deleted", success: true });
   } catch (error) {
     next(error);
   }

@@ -2,6 +2,10 @@ import { Request, Response, Router } from "express";
 import admin from "./admin.route";
 import data from "./class.route";
 import student from "./student.route";
+import user from "./user.route";
+import session from "./session.route";
+import course from "./course.route";
+import registered_course from "./registered_course.route";
 import { login } from "../controllers/auth.controller";
 import validate from "../middlewares/validate.middleware";
 import { loginSchema } from "../schemas/auth.schema";
@@ -18,6 +22,10 @@ router.get("/docs", (req: Request, res: Response) => {
 router.post("/auth/login", validate(loginSchema), login);
 router.use("/admins", admin);
 router.use("/classes", data);
+router.use("/sessions", session);
+router.use("/courses", course);
+router.use("/registered_courses", registered_course);
 router.use("/students", student);
+router.use("/users", user);
 
 export default router;

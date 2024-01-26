@@ -19,8 +19,9 @@ overrides:
   - files:
       - src/**/*.ts
       - src/*.ts
+      - jest.
 ignorePatterns:
-  - src-js/
+  - jest.config.js
 rules:
   '@typescript-eslint/no-explicit-any':
     - warn

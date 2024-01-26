@@ -9,7 +9,7 @@ enum StudentRole {
 
 export interface IStudent {
   user_id: Types.ObjectId;
-  class_id: Types.ObjectId;
+  class_id?: string;
   reg_number: string;
   full_name: string;
   email?: EmailOptions;

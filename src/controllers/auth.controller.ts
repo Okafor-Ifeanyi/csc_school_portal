@@ -19,14 +19,14 @@ export const login = async (
       if (!user) {
         throw new HttpException(401, info.message);
       }
-
       req.logIn(user, (err) => {
         if (err) {
+          console.log(err);
           return next(err);
         }
 
         res.status(201).json({
-          message: `Logged in as an: ${user.type}`,
+          message: `Logged in as : ${user.type}`,
           success: true,
           user: req.user,
         });

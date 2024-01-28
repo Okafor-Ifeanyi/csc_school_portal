@@ -27,8 +27,8 @@ const ResultSchema = new Schema<IResult, ResultModel>(
     },
     isCurrent: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   {
     timestamps: true,
@@ -40,6 +40,6 @@ ResultSchema.index(
   { unique: true },
 );
 
-const Result = model<IResult, ResultModel>( "Result", ResultSchema, );
+const Result = model<IResult, ResultModel>("Result", ResultSchema);
 
 export default Result;

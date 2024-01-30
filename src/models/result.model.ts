@@ -17,6 +17,11 @@ const ResultSchema = new Schema<IResult, ResultModel>(
       ref: "Student",
       required: true,
     },
+    class_id: {
+      type: Types.ObjectId,
+      ref: "Class",
+      required: true,
+    },
     gpa: {
       type: Number,
       default: 0,
@@ -25,7 +30,19 @@ const ResultSchema = new Schema<IResult, ResultModel>(
       type: Number,
       default: 0,
     },
-    isCurrent: {
+    tcp: {
+      type: Number,
+      default: 0,
+    },
+    tqa: {
+      type: Number,
+      default: 0,
+    },
+    is_current: {
+      type: Boolean,
+      default: true,
+    },
+    is_deleted: {
       type: Boolean,
       default: true,
     },
@@ -33,11 +50,6 @@ const ResultSchema = new Schema<IResult, ResultModel>(
   {
     timestamps: true,
   },
-);
-
-ResultSchema.index(
-  { session_id: 1, course_id: 1, student_id: 1 },
-  { unique: true },
 );
 
 const Result = model<IResult, ResultModel>("Result", ResultSchema);

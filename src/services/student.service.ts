@@ -5,20 +5,11 @@ import Student, { StudentDocument } from "../models/student.model";
 import Class, { ClassDocument } from "../models/class.model";
 
 export const GetStudents = async (
-  department?: string | undefined,
-  roles?: string[] | undefined,
+  filter?: Partial<IStudent>,
   limit?: number | undefined,
   order?: "asc" | "desc" | undefined,
 ) => {
-  const query: any = { is_deleted: false };
-
-  if (roles && roles.length > 0) {
-    query.role = { $in: roles };
-  }
-
-  if (department) {
-    query.department = department;
-  }
+  const query: any = { ...filter, is_deleted: false };
 
   const studentsQuery = Student.find(query, "-__v -password -is_deleted");
 

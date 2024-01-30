@@ -45,7 +45,8 @@ const REGCourseSchema = new Schema<IREGCourse, REGCourseModel>(
       type: String,
     },
     unit: {
-      type: String,
+      type: Number,
+      required: [true, "unit field is required"],
     },
     is_deleted: {
       type: Boolean,

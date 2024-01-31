@@ -12,7 +12,6 @@ passport.use(
     async (username, password, done) => {
       try {
         const user: UserDocument | null = await User.findOne({ username });
-        console.log(user);
 
         if (!user) {
           return done(undefined, false, {

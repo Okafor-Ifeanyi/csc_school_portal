@@ -119,12 +119,11 @@ export const getAllStudents = async (
 ) => {
   try {
     // Extract parameters from the query string
-    const { department, roles, limit, order } = req.query;
+    const { limit, order, ...filter } = req.query;
 
     // Call the dynamic GetStudents function with parameters
     const students = await services.GetStudents(
-      department as string | undefined,
-      roles as string[] | undefined,
+      filter,
       limit ? Number(limit) : undefined,
       order as "asc" | "desc" | undefined,
     );

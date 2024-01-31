@@ -48,7 +48,7 @@ export const GetREGCourse = async (filter: FilterQuery<IREGCourse>) => {
 export const CreateREGCourse = async (input: IREGCourse) => {
   /**Creates REGCourse Service */
   const { session_id, course_id, student_id } = input;
-  console.log(session_id, course_id, student_id);
+
   const session_data = await Session.findOne({
     _id: session_id,
     is_deleted: false,

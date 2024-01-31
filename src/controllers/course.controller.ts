@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import * as services from "../services/course.service";
 import { Types } from "mongoose";
 
-
 export const createCourse = async (
   req: Request,
   res: Response,

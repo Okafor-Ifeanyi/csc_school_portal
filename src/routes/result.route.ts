@@ -13,7 +13,13 @@ const router = Router();
 
 router.post("/student", isAuth, isHOD, validate(registerSchema), createResult);
 
-router.post("/class", isAuth, isHOD, validate(generateClassSchema), generateClassResult);
+router.post(
+  "/class",
+  isAuth,
+  isHOD,
+  validate(generateClassSchema),
+  generateClassResult,
+);
 
 router.get("/", isAuth, isHOD, getAllResults);
 

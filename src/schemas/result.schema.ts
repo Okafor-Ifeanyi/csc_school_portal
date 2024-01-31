@@ -6,6 +6,6 @@ export const registerSchema = Joi.object().keys({
 });
 
 export const generateClassSchema = Joi.object().keys({
-    session_id: Joi.string().required(),
-    class_id: Joi.string().required(),
+  session_id: Joi.string().required(),
+  class_id: Joi.string().required(),
 });

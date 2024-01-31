@@ -5,6 +5,7 @@ import student from "./student.route";
 import user from "./user.route";
 import session from "./session.route";
 import course from "./course.route";
+import result from "./result.route";
 import registered_course from "./registered_course.route";
 import { login } from "../controllers/auth.controller";
 import validate from "../middlewares/validate.middleware";
@@ -25,6 +26,7 @@ router.use("/classes", data);
 router.use("/sessions", session);
 router.use("/courses", course);
 router.use("/registered_courses", registered_course);
+router.use("/results", result);
 router.use("/students", student);
 router.use("/users", user);
 

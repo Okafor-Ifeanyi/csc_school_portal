@@ -18,7 +18,7 @@ export const updateSchema = Joi.object().keys({
   test_score: Joi.number(),
   lab_score: Joi.number(),
   exam_score: Joi.number(),
-  total_score: Joi.number(),
-  grade: Joi.string(),
+  // total_score: Joi.number(),
+  // grade: Joi.string(),
   remark: Joi.string(),
 });

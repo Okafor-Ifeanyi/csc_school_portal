@@ -88,6 +88,31 @@ export const updateREGCourse = async (
   }
 };
 
+export const studentScores = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  // const _id: Types.ObjectId = Types.ObjectId.createFromHexString(req.params.id);
+  try {
+    const { session_id, course_id, student_id } = req.body
+    const registered_course = await services.GetREGCourse({ 
+      session_id, course_id, student_id })
+
+    const data = await services.UpdateREGCourse(registered_course._id, req.body);
+
+    res.status(201).json({
+      data: data,
+      message: "REGCourse successfully updated",
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
 export const deleteREGCourse = async (
   req: Request,
   res: Response,

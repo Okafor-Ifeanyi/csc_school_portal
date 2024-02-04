@@ -64,7 +64,7 @@ export const CreateREGCourse = async (input: IREGCourse) => {
     is_deleted: false,
   });
 
-  if (!session_data && !student_data && !course_data) {
+  if (!session_data || !student_data || !course_data) {
     throw new HttpException(400, `This course can't be registered. Invalid ID`);
   }
 
@@ -79,7 +79,6 @@ export const CreateREGCourse = async (input: IREGCourse) => {
       `Course ${course_data?.title} has been registered on this semester`,
     );
   }
-
   return await REGCourse.create({
     ...input,
     code: course_data?.code,
@@ -96,10 +95,16 @@ export const UpdateREGCourse = async (
   if (!data) {
     throw new HttpException(404, "REGCourse not found");
   }
+  let total_score = 0;
+  if (input.test_score && input.exam_score && input.lab_score) {
+    total_score = input.test_score + input.lab_score + input.exam_score;
+  }
 
-  return await REGCourse.findByIdAndUpdate(_id, input, { new: true }).select(
-    "-is_deleted -__v",
-  );
+  return await REGCourse.findByIdAndUpdate(
+    _id,
+    { ...input, total_score },
+    { new: true },
+  ).select("-is_deleted -__v");
 };
 
 export const DeleteREGCourse = async (_id: Types.ObjectId) => {

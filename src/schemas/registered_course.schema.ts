@@ -5,6 +5,7 @@ export const registerSchema = Joi.object().keys({
   student_id: Joi.string(),
   course_id: Joi.string().required(),
   code: Joi.string(),
+  unit: Joi.number(),
   test_score: Joi.number(),
   lab_score: Joi.number(),
   exam_score: Joi.number(),

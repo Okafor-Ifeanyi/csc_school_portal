@@ -19,7 +19,7 @@ import {
 
 const router = Router();
 
-router.post("/register", validate(registerSchema), register);
+router.post("/", validate(registerSchema), register);
 
 router.post("/upload", isHOD, validate(uploadSchema), uploadStudent);
 
@@ -29,8 +29,8 @@ router.get("/", isHOD, getAllStudents);
 
 router.get("/:id", getSingleStudent);
 
-router.patch("/update", isAuth, validate(updateSchema), updateStudent);
+router.patch("/", isAuth, validate(updateSchema), updateStudent);
 
-router.delete("/delete/:id", isHOD, deleteStudent);
+router.delete("/:id", isHOD, deleteStudent);
 
 export default router;

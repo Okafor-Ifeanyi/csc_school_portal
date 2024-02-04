@@ -12,14 +12,14 @@ import { registerSchema, updateSchema } from "../schemas/class.schema";
 
 const router = Router();
 
-router.post("/register", isAuth, isHOD, validate(registerSchema), createClass);
+router.post("/", isAuth, isHOD, validate(registerSchema), createClass);
 
 router.get("/", isAuth, isHOD, getAllClasses);
 
 router.get("/:id", getSingleClass);
 
-router.patch("/update/:id", isAuth, isHOD, validate(updateSchema), updateClass);
+router.patch("/:id", isAuth, isHOD, validate(updateSchema), updateClass);
 
-router.delete("/delete/:id", isAuth, isHOD, deleteClass);
+router.delete("/:id", isAuth, isHOD, deleteClass);
 
 export default router;

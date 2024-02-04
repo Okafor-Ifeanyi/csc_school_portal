@@ -10,7 +10,7 @@ export const registerSchema = Joi.object().keys({
 });
 
 export const updateSchema = Joi.object().keys({
-  name: Joi.string().required(),
+  name: Joi.string(),
   is_current_session: Joi.boolean().default(true),
   semester: Joi.string().valid(...Object.values(Semester)),
   year: Joi.number(),

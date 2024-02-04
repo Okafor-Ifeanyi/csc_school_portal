@@ -26,3 +26,5 @@ rules:
   '@typescript-eslint/no-explicit-any':
     - warn
     - ignoreRestArgs: true
+  'no-prototype-builtins':
+    - warn

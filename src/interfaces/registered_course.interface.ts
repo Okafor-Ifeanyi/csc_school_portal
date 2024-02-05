@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 
-export enum grade {
+export enum IGrade {
   a = "A",
   b = "B",
   c = "C",
@@ -22,7 +22,7 @@ export interface IREGCourse {
   lab_score?: number;
   exam_score?: number;
   total_score?: number;
-  grade?: grade;
+  grade?: IGrade;
   remark?: string;
   unit: number;
   is_deleted?: boolean;

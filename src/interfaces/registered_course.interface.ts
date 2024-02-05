@@ -1,5 +1,13 @@
 import { ObjectId } from "mongoose";
 
+export enum IGrade {
+  a = "A",
+  b = "B",
+  c = "C",
+  d = "D",
+  e = "E",
+  f = "F",
+}
 export enum Course {
   FIRST_SEMESTER = "Harmattan Semester",
   SECOND_SEMESTER = "Rain semester",
@@ -14,8 +22,24 @@ export interface IREGCourse {
   lab_score?: number;
   exam_score?: number;
   total_score?: number;
-  grade?: string;
+  grade?: IGrade;
   remark?: string;
-  unit?: number;
+  unit: number;
   is_deleted?: boolean;
+}
+
+export interface IREGCourseUpload {
+  Name: string;
+  "Reg. No": string;
+  test_score: number;
+  lab_score: number;
+  exam_score: number;
+}
+
+export interface IScoreMap {
+  [key: string]: {
+    test_score: number;
+    lab_score: number;
+    exam_score: number;
+  };
 }

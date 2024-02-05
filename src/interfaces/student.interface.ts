@@ -1,5 +1,5 @@
 import { EmailOptions } from "joi";
-import { Types } from "mongoose";
+import { ObjectId } from "mongoose";
 
 enum StudentRole {
   course_rep = "Course Rep",
@@ -8,7 +8,7 @@ enum StudentRole {
 }
 
 export interface IStudent {
-  user_id: Types.ObjectId;
+  user_id: ObjectId;
   class_id?: string;
   reg_number: string;
   full_name: string;

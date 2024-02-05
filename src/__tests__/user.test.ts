@@ -74,9 +74,7 @@ describe("User", () => {
       });
 
       it("returns logged in as a Student", async () => {
-        await supertest(app)
-          .post("/api/students/")
-          .send(registerStudent);
+        await supertest(app).post("/api/students/").send(registerStudent);
 
         const result = await supertest(app).post(`/api/auth/login`).send({
           username: registerStudent.reg_number,
@@ -98,9 +96,9 @@ describe("User", () => {
   describe("Get a User", () => {
     describe("by ID", () => {
       it("return 404 user not found", async () => {
-        const id = "65c1080efed4dc96b697dbad"
-        
-        const result = await supertest(app).get(`/api/users/${id}`)
+        const id = "65c1080efed4dc96b697dbad";
+
+        const result = await supertest(app).get(`/api/users/${id}`);
 
         expect(result.status).toBe(404);
         expect(result.body).toMatchObject({
@@ -110,70 +108,73 @@ describe("User", () => {
 
       it("return 201 successful", async () => {
         // expect(true).toBe(true);
-        const user_data = await supertest(app).post("/api/admins/").send(registerAdmin);
+        const user_data = await supertest(app)
+          .post("/api/admins/")
+          .send(registerAdmin);
 
-        const id = user_data.body.data.user_id
-        
-        const result = await supertest(app)
-          .get(`/api/users/${id}`)
+        const id = user_data.body.data.user_id;
+
+        const result = await supertest(app).get(`/api/users/${id}`);
 
         expect(result.status).toBe(201);
         expect(result.body.data).toMatchObject({
           username: registerAdmin.email,
           type: "admin",
-          createdAt: expect.any(String)
+          createdAt: expect.any(String),
         });
       });
-    })
+    });
 
     describe("by username", () => {
       it("return 201 successful", async () => {
         // expect(true).toBe(true);
-        const user_data = await supertest(app).post("/api/admins/").send(registerAdmin);
+        const user_data = await supertest(app)
+          .post("/api/admins/")
+          .send(registerAdmin);
 
-        const id = user_data.body.data.email
-        
-        const result = await supertest(app).get(`/api/users/@${id}`)
+        const id = user_data.body.data.email;
+
+        const result = await supertest(app).get(`/api/users/@${id}`);
 
         expect(result.status).toBe(201);
         expect(result.body.data).toMatchObject({
           username: registerAdmin.email,
           type: "admin",
-          createdAt: expect.any(String)
+          createdAt: expect.any(String),
         });
       });
-    })    
+    });
 
     describe("All Users", () => {
       it("return 403 Unauthorized", async () => {
-        const result = await supertest(app).get(`/api/users/`)
+        const result = await supertest(app).get(`/api/users/`);
 
         expect(result.status).toBe(403);
         expect(result.body).toMatchObject({
-          message: "Unauthorized! Please Login"
+          message: "Unauthorized! Please Login",
         });
       });
 
       it("return 201 successful", async () => {
         // Create Admin User
-        const wet = await supertest(app).post("/api/admins/").send(registerAdmin);
+        await supertest(app).post("/api/admins/").send(registerAdmin);
 
-        // loggin the created User                                                           //  
+        // loggin the created User                                                           //
         const login = await supertest(app).post(`/api/auth/login`).send({
           username: registerAdmin.email,
           password: registerAdmin.password,
         });
 
-        const cookies = login.headers['set-cookie'];
+        const cookies = login.headers["set-cookie"];
         const result = await supertest(app)
           .get(`/api/users/`)
-          .set('Cookie', cookies)
+          .set("Cookie", cookies);
 
         expect(result.status).toBe(200);
         expect(result.body).toMatchObject({
-          success: true
+          success: true,
         });
       });
-    })    
-  })
+    });
+  });
 });

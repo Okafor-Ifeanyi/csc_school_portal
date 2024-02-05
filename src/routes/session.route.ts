@@ -24,14 +24,8 @@ router.get("/", isAuth, isHOD, getAllSessions);
 
 router.get("/:id", getSingleSession);
 
-router.patch(
-  "/update/:id",
-  isAuth,
-  isHOD,
-  validate(updateSchema),
-  updateSession,
-);
+router.patch("/:id", isAuth, isHOD, validate(updateSchema), updateSession);
 
-router.delete("/delete/:id", isAuth, isHOD, deleteSession);
+router.delete("/:id", isAuth, isHOD, deleteSession);
 
 export default router;

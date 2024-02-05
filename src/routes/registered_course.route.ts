@@ -15,26 +15,14 @@ import {
 
 const router = Router();
 
-router.post(
-  "/register",
-  isAuth,
-  isHOD,
-  validate(registerSchema),
-  createREGCourse,
-);
+router.post("/", isAuth, isHOD, validate(registerSchema), createREGCourse);
 
 router.get("/", isAuth, isHOD, getAllREGCourses);
 
 router.get("/:id", getSingleREGCourse);
 
-router.patch(
-  "/update/:id",
-  isAuth,
-  isHOD,
-  validate(updateSchema),
-  updateREGCourse,
-);
+router.patch("/:id", isAuth, isHOD, validate(updateSchema), updateREGCourse);
 
-router.delete("/delete/:id", isAuth, isHOD, deleteREGCourse);
+router.delete("/:id", isAuth, isHOD, deleteREGCourse);
 
 export default router;

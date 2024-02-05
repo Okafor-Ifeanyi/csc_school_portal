@@ -12,14 +12,14 @@ import { registerSchema, updateSchema } from "../schemas/admin.schema";
 
 const router = Router();
 
-router.post("/register", validate(registerSchema), register);
+router.post("/", validate(registerSchema), register);
 
 router.get("/", isAuth, getAllAdmins);
 
 router.get("/:id", getSingleAdmin);
 
-router.patch("/update", isAuth, validate(updateSchema), updateAdmin);
+router.patch("/", isAuth, validate(updateSchema), updateAdmin);
 
-router.delete("/delete", isAuth, deleteAdmin);
+router.delete("/", isAuth, deleteAdmin);
 
 export default router;

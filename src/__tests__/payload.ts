@@ -15,6 +15,13 @@ export const registerAdmin: Partial<IAdmin & IUser> = {
   role: AdminRole.HOD,
 };
 
+export const registerAdminAdvisor: Partial<IAdmin & IUser> = {
+  email: "test@gmail.com",
+  password: "password",
+  full_name: "test THe Gospel",
+  role: AdminRole.HOD,
+};
+
 export const registerStudent: Partial<IStudent & IUser> = {
   class_id: "65a9630ce5792818ed3f9e96",
   reg_number: "20181114645",

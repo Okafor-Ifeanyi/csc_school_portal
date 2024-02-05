@@ -38,6 +38,6 @@ const SessionSchema = new Schema<ISession, SessionModel>(
 // Create a compound index for name and semester
 SessionSchema.index({ name: 1, semester: 1 }, { unique: true });
 
-const Session = model<ISession, SessionModel>("Session", SessionSchema);
+const Session = model<ISession, SessionModel>("School_Session", SessionSchema);
 
 export default Session;

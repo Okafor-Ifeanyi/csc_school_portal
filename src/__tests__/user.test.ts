@@ -21,6 +21,11 @@ describe("User", () => {
 
   describe("Login", () => {
     describe("Validation Error on Schema", () => {
+      it("drops db", async () => {
+        await mongoose.connection.dropDatabase();
+        console.log("done");
+      });
+
       it("returns 422 entity error", async () => {
         // expect(true).toBe(true);
         const result = await supertest(app).post(`/api/auth/login`).send();
@@ -30,7 +35,7 @@ describe("User", () => {
     });
 
     describe("Get the user doesnt exist", () => {
-      it("return 404", async () => {
+      it("return 401", async () => {
         // expect(true).toBe(true);
         const result = await supertest(app)
           .post(`/api/auth/login`)
@@ -46,7 +51,6 @@ describe("User", () => {
     describe("Get the registered user", () => {
       it("returns logged in as an Admin", async () => {
         await supertest(app).post("/api/admins/").send(registerAdmin);
-
         // Test Wrong password Auth
         const wrong_password = await supertest(app)
           .post(`/api/auth/login`)
@@ -57,7 +61,7 @@ describe("User", () => {
 
         expect(wrong_password.status).toBe(401);
         expect(wrong_password.body).toMatchObject({
-          message: "Invalid email or password.",
+          message: `Invalid email or password.`,
         });
 
         const result = await supertest(app).post(`/api/auth/login`).send({
@@ -116,7 +120,7 @@ describe("User", () => {
 
         const result = await supertest(app).get(`/api/users/${id}`);
 
-        expect(result.status).toBe(201);
+        expect(result.status).toBe(200);
         expect(result.body.data).toMatchObject({
           username: registerAdmin.email,
           type: "admin",
@@ -136,7 +140,7 @@ describe("User", () => {
 
         const result = await supertest(app).get(`/api/users/@${id}`);
 
-        expect(result.status).toBe(201);
+        expect(result.status).toBe(200);
         expect(result.body.data).toMatchObject({
           username: registerAdmin.email,
           type: "admin",

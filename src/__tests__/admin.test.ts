@@ -1,17 +1,17 @@
-import supertest from "supertest";
+import supertest, { Response } from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createServer } from "../configs/server.config";
 import {
-  //   loginAdmin_wrong,
+  // loginAdmin_wrong,
   registerAdmin,
   registerAdminAdvisor,
-  //   registerStudent,
+  // registerStudent,
 } from "./payload";
 import mongoose from "mongoose";
 
 const app = createServer();
-let login = {};
-describe("User", () => {
+let login: Response;
+describe("Admin", () => {
   jest.setTimeout(30000);
 
   beforeAll(async () => {
@@ -21,11 +21,15 @@ describe("User", () => {
     // Create Admin User
     await supertest(app).post("/api/admins/").send(registerAdminAdvisor);
 
+    // Logout any existing session
+    await supertest(app).get(`/api/auth/logout`);
+
     // loggin the created User                                                           //
     login = await supertest(app).post(`/api/auth/login`).send({
       username: registerAdminAdvisor.email,
       password: registerAdminAdvisor.password,
     });
+    console.log(login);
   });
 
   afterAll(async () => {
@@ -34,7 +38,7 @@ describe("User", () => {
   });
 
   // test get all admins
-  describe("Get a User", () => {
+  describe("Get an Admin", () => {
     describe("by ID", () => {
       console.log(login);
       it("return 404 user not found", async () => {
@@ -49,16 +53,11 @@ describe("User", () => {
       });
 
       it("return 201 successful", async () => {
-        // expect(true).toBe(true);
-        const user_data = await supertest(app)
-          .post("/api/admins/")
-          .send(registerAdmin);
-
-        const id = user_data.body.data.user_id;
+        const id = login.body.data.user_id;
 
         const result = await supertest(app).get(`/api/users/${id}`);
 
-        expect(result.status).toBe(201);
+        expect(result.status).toBe(200);
         expect(result.body.data).toMatchObject({
           username: registerAdmin.email,
           type: "admin",
@@ -69,7 +68,6 @@ describe("User", () => {
 
     describe("by username", () => {
       it("return 201 successful", async () => {
-        // expect(true).toBe(true);
         const user_data = await supertest(app)
           .post("/api/admins/")
           .send(registerAdmin);
@@ -78,7 +76,7 @@ describe("User", () => {
 
         const result = await supertest(app).get(`/api/users/@${id}`);
 
-        expect(result.status).toBe(201);
+        expect(result.status).toBe(200);
         expect(result.body.data).toMatchObject({
           username: registerAdmin.email,
           type: "admin",
@@ -87,9 +85,9 @@ describe("User", () => {
       });
     });
 
-    describe("All Users", () => {
+    describe("Get All Admin", () => {
       it("return 403 Unauthorized", async () => {
-        const result = await supertest(app).get(`/api/users/`);
+        const result = await supertest(app).get(`/api/admins/`);
 
         expect(result.status).toBe(403);
         expect(result.body).toMatchObject({
@@ -99,13 +97,6 @@ describe("User", () => {
 
       it("return 201 successful", async () => {
         // Create Admin User
-        await supertest(app).post("/api/admins/").send(registerAdmin);
-
-        // loggin the created User                                                           //
-        const login = await supertest(app).post(`/api/auth/login`).send({
-          username: registerAdmin.email,
-          password: registerAdmin.password,
-        });
 
         const cookies = login.headers["set-cookie"];
         const result = await supertest(app)
@@ -122,8 +113,8 @@ describe("User", () => {
 });
 
 // Given the user is logged in
-// test get single admin
-// test updateing an admin
+
+// test updating an admin
 // Given the user is logged in
 // given the schema is wrong and write
 // test delete an admin

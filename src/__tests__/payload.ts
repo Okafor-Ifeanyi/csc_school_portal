@@ -9,7 +9,7 @@ export const loginAdmin_wrong: Pick<UserDocument, "username" | "password"> = {
 };
 
 export const registerAdmin: Partial<IAdmin & IUser> = {
-  email: "test@gmail.com",
+  email: "test234@gmail.com",
   password: "password",
   full_name: "test THe Gospel",
   role: AdminRole.HOD,

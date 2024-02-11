@@ -29,9 +29,10 @@ describe("Admin", () => {
       username: registerAdminAdvisor.email,
       password: registerAdminAdvisor.password,
     });
-    console.log(login);
+    // console.log(login.body);
   });
 
+  
   afterAll(async () => {
     await mongoose.disconnect();
     await mongoose.connection.close();
@@ -100,7 +101,31 @@ describe("Admin", () => {
 
         const cookies = login.headers["set-cookie"];
         const result = await supertest(app)
-          .get(`/api/users/`)
+          .get(`/api/admins/`)
+          .set("Cookie", cookies);
+
+        expect(result.status).toBe(200);
+        expect(result.body).toMatchObject({
+          success: true,
+        });
+      });
+    });
+
+    describe("Update an Admin", () => {
+      it("return 403 Unauthorized", async () => {
+        const result = await supertest(app).patch(`/api/admins/`);
+
+        expect(result.status).toBe(403);
+        expect(result.body).toMatchObject({
+          message: "Unauthorized! Please Login",
+        });
+      });
+
+      it("return 201 successful", async () => {
+        // Create Admin User
+        const cookies = login.headers["set-cookie"];
+        const result = await supertest(app)
+          .patch(`/api/users/`)
           .set("Cookie", cookies);
 
         expect(result.status).toBe(200);

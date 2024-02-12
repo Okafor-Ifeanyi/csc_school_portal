@@ -22,6 +22,15 @@ export const registerAdminAdvisor: Partial<IAdmin & IUser> = {
   role: AdminRole.HOD,
 };
 
+export const updateAdmin201: Partial<IAdmin> = {
+  full_name: "Peoples Word",
+};
+
+export const updateAdmin422: Partial<IAdmin> = {
+  full_name: "422 Error Incoming",
+  role: AdminRole.ADVISOR,
+};
+
 export const registerStudent: Partial<IStudent & IUser> = {
   class_id: "65a9630ce5792818ed3f9e96",
   reg_number: "20181114645",

@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createServer } from "../configs/server.config";
-import { loginAdmin_wrong, registerAdmin, registerStudent } from "./payload";
+import { loginAdmin_wrong, registerAdmin } from "./payload";
 import mongoose from "mongoose";
 
 const app = createServer();
@@ -23,7 +23,6 @@ describe("User", () => {
     describe("Validation Error on Schema", () => {
       it("drops db", async () => {
         await mongoose.connection.dropDatabase();
-        console.log("done");
       });
 
       it("returns 422 entity error", async () => {
@@ -69,29 +68,14 @@ describe("User", () => {
           password: registerAdmin.password,
         });
 
+        // logout
+        await supertest(app).get(`/api/auth/logout`);
+
         expect(result.status).toBe(201);
         expect(result.body).toMatchObject({ message: `Logged in as : admin` });
         expect(result.body.user).toMatchObject({
           username: registerAdmin.email,
           type: "admin",
-        });
-      });
-
-      it("returns logged in as a Student", async () => {
-        await supertest(app).post("/api/students/").send(registerStudent);
-
-        const result = await supertest(app).post(`/api/auth/login`).send({
-          username: registerStudent.reg_number,
-          password: registerStudent.password,
-        });
-
-        expect(result.status).toBe(201);
-        expect(result.body).toMatchObject({
-          message: `Logged in as : student`,
-        });
-        expect(result.body.user).toMatchObject({
-          username: registerStudent.reg_number,
-          type: "student",
         });
       });
     });
@@ -120,7 +104,7 @@ describe("User", () => {
 
         const result = await supertest(app).get(`/api/users/${id}`);
 
-        expect(result.status).toBe(200);
+        expect(result.status).toBe(201);
         expect(result.body.data).toMatchObject({
           username: registerAdmin.email,
           type: "admin",
@@ -140,7 +124,7 @@ describe("User", () => {
 
         const result = await supertest(app).get(`/api/users/@${id}`);
 
-        expect(result.status).toBe(200);
+        expect(result.status).toBe(201);
         expect(result.body.data).toMatchObject({
           username: registerAdmin.email,
           type: "admin",

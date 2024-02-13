@@ -27,4 +27,5 @@ export const updateSchema = Joi.object().keys({
   profile_picture: Joi.string().allow(""),
   role: Joi.forbidden(),
   department: Joi.forbidden(),
+  email: Joi.forbidden(),
 });

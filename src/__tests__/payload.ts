@@ -9,10 +9,26 @@ export const loginAdmin_wrong: Pick<UserDocument, "username" | "password"> = {
 };
 
 export const registerAdmin: Partial<IAdmin & IUser> = {
+  email: "test234@gmail.com",
+  password: "password",
+  full_name: "test THe Gospel",
+  role: AdminRole.HOD,
+};
+
+export const registerAdminAdvisor: Partial<IAdmin & IUser> = {
   email: "test@gmail.com",
   password: "password",
   full_name: "test THe Gospel",
   role: AdminRole.HOD,
+};
+
+export const updateAdmin201: Partial<IAdmin> = {
+  full_name: "Peoples Word",
+};
+
+export const updateAdmin422: Partial<IAdmin> = {
+  full_name: "422 Error Incoming",
+  role: AdminRole.ADVISOR,
 };
 
 export const registerStudent: Partial<IStudent & IUser> = {

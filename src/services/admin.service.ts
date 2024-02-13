@@ -35,14 +35,14 @@ export const GetAdmins = async (
 };
 
 export const GetAdmin = async (filter: FilterQuery<IAdmin>) => {
-  try {
-    return await Admin.findOne(
-      { ...filter, is_deleted: false },
-      "-__v -password -is_deleted",
-    );
-  } catch (error: any) {
-    throw new HttpException(404, "Could not find admin");
-  }
+  const admin = await Admin.findOne(
+    { ...filter, is_deleted: false },
+    "-__v -password -is_deleted",
+  );
+
+  if (!admin) throw new HttpException(404, "Could not find admin");
+
+  return admin;
 };
 
 export const CreateAdmin = async (input: IAdmin) => {

@@ -17,7 +17,7 @@ export const getAllUsers = async (
       order as "asc" | "desc" | undefined,
     );
 
-    res.json({ data: Users, success: true });
+    res.status(200).json({ data: Users, success: true });
   } catch (error) {
     next(error);
   }
@@ -40,7 +40,7 @@ export const getSingleUser = async (
   try {
     const User = await services.GetUser(filter);
 
-    res.json({ success: true, data: User });
+    res.status(201).json({ success: true, data: User });
   } catch (error) {
     next(error);
   }

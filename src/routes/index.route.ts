@@ -7,7 +7,7 @@ import session from "./session.route";
 import course from "./course.route";
 import result from "./result.route";
 import registered_course from "./registered_course.route";
-import { login } from "../controllers/auth.controller";
+import { login, logout } from "../controllers/auth.controller";
 import validate from "../middlewares/validate.middleware";
 import { loginSchema } from "../schemas/auth.schema";
 const router = Router();
@@ -21,6 +21,7 @@ router.get("/docs", (req: Request, res: Response) => {
 });
 
 router.post("/auth/login", validate(loginSchema), login);
+router.get("/auth/logout", logout);
 router.use("/admins", admin);
 router.use("/classes", data);
 router.use("/sessions", session);

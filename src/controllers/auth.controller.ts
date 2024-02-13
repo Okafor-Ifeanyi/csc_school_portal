@@ -5,6 +5,10 @@ import { Request, Response, NextFunction } from "express";
 import "../configs/passport.config";
 import { UserDocument } from "../models/user.model";
 
+/**
+ * Log in.
+ * @route post /auth/login
+ */
 export const login = async (
   req: Request,
   res: Response,
@@ -33,4 +37,26 @@ export const login = async (
       });
     },
   )(req, res, next);
+};
+
+/**
+ * Log out.
+ * @route GET /logout
+ */
+export const logout = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void => {
+  // Log the user out without providing any additional options
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    res.status(201).json({
+      message: `Logged out`,
+      success: true,
+    });
+  });
 };

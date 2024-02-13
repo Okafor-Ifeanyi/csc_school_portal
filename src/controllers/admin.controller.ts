@@ -64,7 +64,7 @@ export const getSingleAdmin = async (
   try {
     const admin = await services.GetAdmin({ user_id: req.params.id });
 
-    res.json({ success: true, data: admin });
+    res.status(201).json({ success: true, data: admin });
   } catch (error) {
     next(error);
   }
@@ -79,7 +79,7 @@ export const updateAdmin = async (
     const userId = req.user?._id as unknown as ObjectId;
     const admin = await services.UpdateAdmin(userId, req.body);
 
-    res.json({
+    res.status(201).json({
       data: admin,
       message: "Admin successfully updated",
       success: true,
@@ -98,7 +98,7 @@ export const deleteAdmin = async (
     const userId = req.user?._id as unknown as ObjectId;
     await services.UpdateAdmin(userId, req.body);
 
-    res.json({ message: "Admin has been deleted", success: true });
+    res.status(201).json({ message: "Admin has been deleted", success: true });
   } catch (error) {
     next(error);
   }

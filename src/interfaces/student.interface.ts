@@ -9,7 +9,7 @@ enum StudentRole {
 
 export interface IStudent {
   user_id: ObjectId;
-  class_id?: string;
+  class_id?: ObjectId;
   reg_number: string;
   full_name: string;
   email?: EmailOptions;
@@ -25,6 +25,8 @@ export interface IStudentMethods {
 }
 
 export interface IStudentUpload {
-  Name: string;
-  "Reg. No": string;
+  last_name: string;
+  first_name: string;
+  registration_number: string;
+  email: string;
 }

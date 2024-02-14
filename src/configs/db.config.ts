@@ -25,3 +25,23 @@ export async function connect(db: string) {
       console.log(MESSAGES.DATABASE.ERROR);
     });
 }
+
+// const { MongoClient } = require("mongodb");
+// // import { MongoClient }  from "mongodb"
+
+// export async function getMongoDBVersion() {
+//   const uri = DATABASE_URI; // Change this URI to match your MongoDB connection string
+//   const client = new MongoClient(uri, { useUnifiedTopology: true });
+
+//   try {
+//     await client.connect();
+//     const db = client.db();
+
+//     // Get server version from client
+//     const serverInfo = await client.db("admin").command({ buildInfo: 1 });
+//     console.log("MongoDB Version:", serverInfo.version);
+//   } finally {
+//     await client.close();
+//   }
+// }
+// getMongoDBVersion();

@@ -1,4 +1,5 @@
 import { AdminRole, IAdmin } from "../interfaces/admin.interface";
+import { IClass } from "../interfaces/class.interface";
 import { IStudent } from "../interfaces/student.interface";
 import { IUser } from "../interfaces/user.interface";
 import { UserDocument } from "../models/user.model";
@@ -19,12 +20,14 @@ export const registerAdminAdvisor: Partial<IAdmin & IUser> = {
   email: "test@gmail.com",
   password: "password",
   full_name: "test THe Gospel",
-  role: AdminRole.HOD,
+  role: AdminRole.ADVISOR,
 };
 
 export const updateAdmin201: Partial<IAdmin> = {
   full_name: "Peoples Word",
 };
+
+export const id = "5f3e2cb617a4e1a6d8957c33";
 
 export const updateAdmin422: Partial<IAdmin> = {
   full_name: "422 Error Incoming",
@@ -32,8 +35,25 @@ export const updateAdmin422: Partial<IAdmin> = {
 };
 
 export const registerStudent: Partial<IStudent & IUser> = {
-  class_id: "65a9630ce5792818ed3f9e96",
   reg_number: "20181114645",
   full_name: "Nwogbu Emeka Anthony",
   password: "password",
+};
+
+export const createClass: Partial<IClass> = {
+  name: "csc2023",
+  enrollement_year: "2023",
+};
+
+export const createClass201: Partial<IClass> = {
+  name: "csc2022",
+  enrollement_year: "2022",
+};
+
+export const createClass422: Partial<IClass> = {
+  enrollement_year: "2023",
+};
+
+export const updateClass: Partial<IClass> = {
+  department: "Crop Science and Technology",
 };

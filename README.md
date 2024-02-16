@@ -52,7 +52,7 @@ This repository contains the backend functionalities of a Portal Management Soft
 
 
 
-- [API Documentation](https://documenter.getpostman.com/view/26151840/2s93JtQixJ) `/api/docs` [ `GET`: get API Documentation] 
+- [API Documentation](https://documenter.getpostman.com/view/19026826/2s9YsNdAcH) `/api/docs` [ `GET`: get API Documentation] 
 ## Entity Relationship model
 To view the Entity Relationship Diagram (ERM) navigate [here](https://github.com/Okafor-Ifeanyi/csc_school_portal/blob/c2c0e0da14eddb6630860032c127b544e2d90622/ERM/CSC%20School%20Portal.pdf)
 

@@ -8,16 +8,15 @@ export const createClass = async (
   next: NextFunction,
 ) => {
   try {
-    console.log(req.body);
     // const department = req.user?.department;
-    const new_user = await services.CreateClass({
+    const new_class = await services.CreateClass({
       ...req.body,
     });
 
     res.status(201).json({
-      message: `Class ${new_user.name} created`,
+      message: `Class ${new_class.name} created`,
       success: true,
-      data: new_user,
+      data: new_class,
     });
   } catch (error) {
     next(error);
@@ -65,7 +64,11 @@ export const getSingleClass = async (
   try {
     const data = await services.GetClass(filter);
 
-    res.status(200).json({ success: true, message: data });
+    res.status(200).json({
+      success: true,
+      message: `Class name ${data.name} fetched successfully`,
+      data,
+    });
   } catch (error) {
     next(error);
   }

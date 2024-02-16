@@ -21,11 +21,11 @@ const router = Router();
 
 router.post("/", validate(registerSchema), register);
 
-router.post("/upload", isHOD, validate(uploadSchema), uploadStudent);
+router.post("/upload", isAuth, validate(uploadSchema), uploadStudent);
 
 router.post("/login", validate(loginSchema), login);
 
-router.get("/", isHOD, getAllStudents);
+router.get("/", getAllStudents);
 
 router.get("/:id", getSingleStudent);
 

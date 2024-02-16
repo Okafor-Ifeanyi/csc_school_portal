@@ -11,6 +11,7 @@ describe("User", () => {
 
   beforeEach(async () => {
     const mongoServer = await MongoMemoryServer.create();
+    process.env.DATABASE_URI = mongoServer.getUri();
     await mongoose.connect(mongoServer.getUri());
   });
 

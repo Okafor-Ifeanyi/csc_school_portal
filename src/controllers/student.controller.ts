@@ -58,17 +58,21 @@ export const uploadStudent = async (
 
     for (const student of student_list) {
       const user = await userServices.CreateUser({
-        username: student["Reg. No"],
-        password: student["Reg. No"],
+        username: student["registration_number"],
+        password: student["registration_number"],
         type: UserType.STUDENT,
       });
+
       const new_user = await services.CreateStudent({
         ...req.body,
         user_id: user._id,
-        full_name: student.Name,
-        reg_number: student["Reg. No"],
-        password: student["Reg. No"],
+        full_name: student.last_name + student.first_name,
+        reg_number: student["registration_number"],
+        password: student["registration_number"],
       });
+
+      console.log(new_user.reg_number);
+
       registered.push(new_user);
     }
 

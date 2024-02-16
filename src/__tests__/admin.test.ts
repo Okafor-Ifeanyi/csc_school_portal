@@ -19,6 +19,7 @@ describe("Admin", () => {
 
   beforeAll(async () => {
     const mongoServer = await MongoMemoryServer.create();
+    process.env.DATABASE_URI = mongoServer.getUri();
     await mongoose.connect(mongoServer.getUri());
 
     // Create Admin User

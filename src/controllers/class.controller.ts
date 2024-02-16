@@ -64,7 +64,11 @@ export const getSingleClass = async (
   try {
     const data = await services.GetClass(filter);
 
-    res.status(200).json({ success: true, message: data });
+    res.status(200).json({
+      success: true,
+      message: `Class name ${data.name} fetched successfully`,
+      data,
+    });
   } catch (error) {
     next(error);
   }

@@ -27,6 +27,8 @@ export const updateAdmin201: Partial<IAdmin> = {
   full_name: "Peoples Word",
 };
 
+export const id = "5f3e2cb617a4e1a6d8957c33";
+
 export const updateAdmin422: Partial<IAdmin> = {
   full_name: "422 Error Incoming",
   role: AdminRole.ADVISOR,
@@ -40,6 +42,15 @@ export const registerStudent: Partial<IStudent & IUser> = {
 
 export const createClass: Partial<IClass> = {
   name: "csc2023",
+  enrollement_year: "2023",
+};
+
+export const createClass201: Partial<IClass> = {
+  name: "csc2022",
+  enrollement_year: "2022",
+};
+
+export const createClass422: Partial<IClass> = {
   enrollement_year: "2023",
 };
 

@@ -8,7 +8,7 @@
     "dev": "node src/server.ts",
     "ts-dev": "nodemon src/server.ts",
     "build": "tsc",
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prepare": "husky install"

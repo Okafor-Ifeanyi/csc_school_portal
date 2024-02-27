@@ -1,5 +1,5 @@
 # CSC-PORTAL
-This repository contains the backend functionalities of a Portal Management Software. The software is efficiently designed to streamline communication and information sharing between students, teachers, and administrators.
+This repository contains the backend functionalities of a Portal Management Software. The software is efficiently designed to streamline communication and information sharing between students, teachers, and administrators. Transcript Generator
 
  ## Tech Stack
 - Node js
